@@ -224,17 +224,8 @@ function Logo({ compact = false }: { compact?: boolean }) {
   return (
     <div className="flex items-center gap-2.5" aria-label="NEXORA home">
       <div className="relative grid size-10 place-items-center overflow-hidden rounded-[14px] border border-violet-300/20 bg-violet-500/15 shadow-[0_0_30px_rgba(124,58,237,.25)]">
-        <svg viewBox="0 0 40 40" className="size-8" role="img" aria-hidden="true">
-          <defs>
-            <linearGradient id="nexora-gradient" x1="5" y1="4" x2="35" y2="36" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#c4b5fd" />
-              <stop offset=".48" stopColor="#8b5cf6" />
-              <stop offset="1" stopColor="#22d3ee" />
-            </linearGradient>
-          </defs>
-          <path d="M7 28.5 12.5 10l7.5 9.1 7.5-9.1L33 28.5l-7.2-4.2L20 31l-5.8-6.7L7 28.5Z" fill="none" stroke="url(#nexora-gradient)" strokeWidth="3.2" strokeLinejoin="round" />
-          <path d="m15.5 22.5 4.5-3.4 4.5 3.4" fill="none" stroke="#f5f3ff" strokeWidth="2.2" strokeLinecap="round" />
-        </svg>
+        <span className="bg-gradient-to-br from-violet-200 via-violet-400 to-cyan-300 bg-clip-text text-[24px] font-black italic leading-none tracking-[-.18em] text-transparent" aria-hidden="true">N</span>
+        <span className="absolute bottom-1.5 h-[2px] w-4 rounded-full bg-gradient-to-r from-violet-400 to-cyan-300" aria-hidden="true" />
       </div>
       {!compact && (
         <div>
