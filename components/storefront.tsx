@@ -6,11 +6,9 @@ import {
   BadgeCheck,
   Bolt,
   ChevronRight,
-  CircleHelp,
   Clock3,
   Crosshair,
   Gamepad2,
-  Gem,
   Headphones,
   Home,
   Menu,
@@ -23,7 +21,6 @@ import {
   Target,
   Trophy,
   User,
-  Users,
   WalletCards,
   WandSparkles,
   X,
@@ -46,6 +43,8 @@ type Game = {
   accent: string;
   surface: string;
   icon: React.ElementType;
+  iconImage: string;
+  sideWallpaper: string;
   badge?: string;
   fields: string[];
 };
@@ -60,6 +59,8 @@ const games: Game[] = [
     accent: "#8b5cf6",
     surface: "#2a2010",
     icon: Swords,
+    iconImage: "/game_icons/mb_icon.jpeg",
+    sideWallpaper: "/game_side_wallpaper/mobile_legend_side_wallpaper.jpeg",
     badge: "Most popular",
     fields: ["Player ID", "Zone ID"],
   },
@@ -72,6 +73,8 @@ const games: Game[] = [
     accent: "#f59e0b",
     surface: "#30220d",
     icon: Crosshair,
+    iconImage: "/game_icons/bgmi_icon.jpeg",
+    sideWallpaper: "/game_side_wallpaper/bgmi_side.jpg",
     badge: "India",
     fields: ["Character ID"],
   },
@@ -84,6 +87,8 @@ const games: Game[] = [
     accent: "#fb923c",
     surface: "#2b1c10",
     icon: Target,
+    iconImage: "/game_icons/pubg_mobile.webp",
+    sideWallpaper: "/game_side_wallpaper/pubg_mobile_side_wallpaper.jpeg",
     fields: ["Player ID"],
   },
   {
@@ -95,6 +100,8 @@ const games: Game[] = [
     accent: "#ef4444",
     surface: "#2a1515",
     icon: Zap,
+    iconImage: "/game_icons/free_fire.jpeg",
+    sideWallpaper: "/game_side_wallpaper/free_fire_side_wallpaper.jpeg",
     badge: "Hot",
     fields: ["Player ID"],
   },
@@ -107,6 +114,8 @@ const games: Game[] = [
     accent: "#22d3ee",
     surface: "#152329",
     icon: WandSparkles,
+    iconImage: "/game_icons/gensin_impact.jpeg",
+    sideWallpaper: "/game_side_wallpaper/Genshin_Impact_side.jpeg",
     fields: ["UID", "Server"],
   },
   {
@@ -118,6 +127,8 @@ const games: Game[] = [
     accent: "#fb7185",
     surface: "#281619",
     icon: Crosshair,
+    iconImage: "/game_icons/valo_icon.jpeg",
+    sideWallpaper: "/game_side_wallpaper/valo_side_wallpaper.jpg",
     badge: "Gift card",
     fields: ["Email for delivery"],
   },
@@ -130,6 +141,8 @@ const games: Game[] = [
     accent: "#60a5fa",
     surface: "#18202c",
     icon: Sparkles,
+    iconImage: "/game_icons/honkai_icon.jpeg",
+    sideWallpaper: "/game_side_wallpaper/Honkai_Star_Rail_side_wallpaper.jpeg",
     fields: ["UID", "Server"],
   },
   {
@@ -141,6 +154,8 @@ const games: Game[] = [
     accent: "#2dd4bf",
     surface: "#132522",
     icon: Bolt,
+    iconImage: "/game_icons/wuthring_wave_icon.png",
+    sideWallpaper: "/game_side_wallpaper/Wuthering_Waves_side%20wallpaer.jpeg",
     badge: "New",
     fields: ["UID", "Server"],
   },
@@ -153,6 +168,8 @@ const games: Game[] = [
     accent: "#facc15",
     surface: "#2b250f",
     icon: Target,
+    iconImage: "/game_icons/codm_icon.jpeg",
+    sideWallpaper: "/game_side_wallpaper/Call_of_Duty_Mobile_side_wallaper.jpeg",
     fields: ["Player ID"],
   },
   {
@@ -164,6 +181,8 @@ const games: Game[] = [
     accent: "#c084fc",
     surface: "#24192a",
     icon: Trophy,
+    iconImage: "/game_icons/hok_icon.png",
+    sideWallpaper: "/game_side_wallpaper/Honor_of_Kings_side_wallpaper.jpeg",
     fields: ["Player ID", "Region"],
   },
   {
@@ -175,6 +194,8 @@ const games: Game[] = [
     accent: "#4ade80",
     surface: "#17251b",
     icon: ShieldCheck,
+    iconImage: "/game_icons/coc_icon.png",
+    sideWallpaper: "/game_side_wallpaper/coc_side_wallpaper.jpeg",
     fields: ["Player Tag"],
   },
   {
@@ -186,6 +207,8 @@ const games: Game[] = [
     accent: "#a3e635",
     surface: "#202711",
     icon: Gamepad2,
+    iconImage: "/game_icons/zenless_zero_icon.jpeg",
+    sideWallpaper: "/game_side_wallpaper/zenless_zone_zero_side_wallaper.jpeg",
     fields: ["UID", "Server"],
   },
 ];
@@ -247,16 +270,18 @@ function SectionHeading({ kicker, title, copy }: { kicker: string; title: string
 }
 
 function GameArtwork({ game, large = false }: { game: Game; large?: boolean }) {
-  const Icon = game.icon;
   return (
-    <div className={cn("relative overflow-hidden", large ? "h-full min-h-48" : "aspect-[4/3]")} style={{ backgroundColor: game.surface }}>
-      <motion.div animate={{ rotate: [0, 8, 0], scale: [1, 1.06, 1] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-7 -top-9 size-32 rounded-full border border-white/10 bg-white/[.04]" />
-      <div className="absolute bottom-[-20%] left-[-10%] size-40 rounded-full bg-black/30" />
-      <div className={cn("absolute right-3 top-3 font-black tracking-[-.08em] text-white/[.09]", large ? "text-8xl" : "text-6xl")}>{game.short}</div>
-      <div className={cn("absolute rounded-[22px] border border-white/15 bg-black/20 shadow-2xl backdrop-blur-md", large ? "bottom-8 left-8 p-5" : "bottom-4 left-4 p-3") }>
-        <Icon className={cn("text-white", large ? "size-10" : "size-7")} strokeWidth={1.8} />
-      </div>
-      <div className="absolute inset-x-0 bottom-0 h-16 bg-[#0c0c0c]/35" />
+    <div className={cn("relative overflow-hidden bg-[#111111]", large ? "h-full min-h-[300px] md:min-h-[390px]" : "aspect-square") }>
+      <motion.img
+        src={large ? game.sideWallpaper : game.iconImage}
+        alt={`${game.name} ${large ? "wallpaper" : "icon"}`}
+        className="absolute inset-0 size-full object-cover"
+        initial={{ scale: 1.025 }}
+        animate={{ scale: large ? [1.025, 1.055, 1.025] : 1.025 }}
+        whileHover={{ scale: 1.08 }}
+        transition={large ? { duration: 10, repeat: Infinity, ease: "easeInOut" } : { duration: 0.35 }}
+      />
+      {large && <div className="absolute inset-0 bg-black/15" />}
     </div>
   );
 }
@@ -280,7 +305,7 @@ function GameCard({ game, onSelect }: { game: Game; onSelect: (game: Game) => vo
       )}
       <div className="relative flex items-center justify-between gap-3 px-4 pb-4 pt-1">
         <div className="min-w-0">
-          <p className="truncate text-sm font-extrabold text-white sm:text-[15px]">{game.name}</p>
+          <p className="min-h-10 text-sm font-extrabold leading-5 text-white sm:text-[15px]">{game.name}</p>
           <p className="mt-1 text-[11px] font-medium text-zinc-500">{game.currency}</p>
         </div>
         <div className="grid size-8 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[.05] text-zinc-400 transition group-hover:border-[#f5c542]/35 group-hover:bg-[#f5c542]/10 group-hover:text-[#f5c542]">
@@ -321,12 +346,14 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
     <Dialog open={Boolean(game)} onOpenChange={(open) => !open && onClose()}>
       <DialogContent>
         <div className="grid md:grid-cols-[.85fr_1.35fr]">
-          <div className="relative min-h-52 overflow-hidden rounded-t-[28px] md:min-h-full md:rounded-l-[28px] md:rounded-tr-none">
-            <GameArtwork game={game} large />
-            <div className="absolute inset-x-0 bottom-0 z-10 p-6">
+          <div className="flex min-h-52 flex-col overflow-hidden rounded-t-[28px] bg-[#0d0d0d] md:min-h-full md:rounded-l-[28px] md:rounded-tr-none">
+            <div className="relative min-h-[300px] flex-1 overflow-hidden md:min-h-[390px]">
+              <GameArtwork game={game} large />
+            </div>
+            <div className="relative z-10 border-t border-white/10 bg-[#0d0d0d] p-5 sm:p-6">
               <Badge variant="success"><span className="size-1.5 rounded-full bg-[#f5c542]" /> Available</Badge>
-              <DialogTitle className="mt-3 text-2xl">{game.name}</DialogTitle>
-              <DialogDescription className="mt-1 text-zinc-300">Top up {game.currency} securely.</DialogDescription>
+              <DialogTitle className="mt-3 break-words text-xl leading-tight sm:text-2xl">{game.name}</DialogTitle>
+              <DialogDescription className="mt-2 text-zinc-400">Top up {game.currency} securely.</DialogDescription>
             </div>
           </div>
 
@@ -510,10 +537,13 @@ export function Storefront() {
             <div className="glass w-[330px] rounded-[28px] p-4">
               <div className="flex items-center justify-between"><div><p className="text-[10px] font-black uppercase tracking-[.18em] text-zinc-500">Trending now</p><p className="mt-1 text-lg font-black text-white">Quick top-up</p></div><div className="grid size-10 place-items-center rounded-xl bg-[#f5c542]/15 text-[#f5c542]"><Bolt className="size-5" /></div></div>
               <div className="mt-4 space-y-2">
-                {games.slice(0, 3).map((game, index) => {
-                  const Icon = game.icon;
-                  return <motion.button whileHover={{ x: 4 }} key={game.id} onClick={() => setSelectedGame(game)} className="flex w-full items-center gap-3 rounded-2xl border border-white/[.07] bg-black/20 p-3 text-left transition hover:border-[#f5c542]/30 hover:bg-white/[.06]"><div className="grid size-11 place-items-center rounded-xl" style={{ backgroundColor: game.surface }}><Icon className="size-5 text-white" /></div><div className="min-w-0 flex-1"><p className="truncate text-sm font-extrabold text-white">{game.name}</p><p className="text-[10px] text-zinc-500">From ₹{[26, 69, 79][index]}</p></div><ChevronRight className="size-4 text-zinc-600" /></motion.button>;
-                })}
+                {games.slice(0, 3).map((game, index) => (
+                  <motion.button whileHover={{ x: 4 }} key={game.id} onClick={() => setSelectedGame(game)} className="flex w-full items-center gap-3 rounded-2xl border border-white/[.07] bg-black/20 p-3 text-left transition hover:border-[#f5c542]/30 hover:bg-white/[.06]">
+                    <img src={game.iconImage} alt="" className="size-11 shrink-0 rounded-xl object-cover" />
+                    <div className="min-w-0 flex-1"><p className="truncate text-sm font-extrabold text-white">{game.name}</p><p className="text-[10px] text-zinc-500">From ₹{[26, 69, 79][index]}</p></div>
+                    <ChevronRight className="size-4 shrink-0 text-zinc-600" />
+                  </motion.button>
+                ))}
               </div>
               <button onClick={scrollToGames} className="mt-4 flex w-full items-center justify-center gap-2 text-xs font-bold text-[#f5c542] hover:text-[#ffe080]">View all games <ArrowRight className="size-3" /></button>
             </div>
@@ -567,12 +597,12 @@ export function Storefront() {
             <motion.button whileHover={{ y: -5 }} onClick={() => setSelectedGame(games[0])} className="group relative min-h-80 overflow-hidden rounded-[28px] border border-[#f5c542]/20 bg-[#17140b] p-7 text-left sm:p-9">
               <motion.div animate={{ rotate: [0, 7, 0], y: [0, -8, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-16 -top-16 size-80 rounded-full border border-[#f5c542]/15 bg-[#f5c542]/[.05]" />
               <div className="relative max-w-md"><Badge variant="warning"><Sparkles className="size-3" /> Weekend drop</Badge><h3 className="mt-5 text-3xl font-black tracking-[-.04em] text-white sm:text-4xl">Double the energy.<br />Keep the momentum.</h3><p className="mt-4 text-sm leading-6 text-zinc-400">Explore special passes, first-recharge packs, and limited seasonal bundles at competitive prices.</p><div className="mt-8 inline-flex items-center gap-2 text-sm font-black text-[#f5c542]">Unlock deal <ArrowRight className="size-4 transition group-hover:translate-x-1" /></div></div>
-              <Gem className="absolute -bottom-8 right-2 size-64 rotate-[-12deg] text-[#f5c542]/[.12] sm:right-10" strokeWidth={1} />
+              <motion.img animate={{ y: [0, -8, 0], rotate: [-3, 2, -3] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} src={games[0].iconImage} alt="" className="absolute bottom-8 right-8 hidden size-48 rounded-[28px] border border-white/10 object-cover opacity-45 shadow-2xl lg:block" />
             </motion.button>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-              {[{ game: games[1], title: "UC Rush", copy: "Battle-ready packs from ₹69", icon: Crosshair }, { game: games[4], title: "Crystal Week", copy: "Adventure bundles from ₹89", icon: WandSparkles }].map(({ game, title, copy, icon: Icon }) => (
+              {[{ game: games[1], title: "UC Rush", copy: "Battle-ready packs from ₹69" }, { game: games[4], title: "Crystal Week", copy: "Adventure bundles from ₹89" }].map(({ game, title, copy }) => (
                 <motion.button whileHover={{ x: 5 }} key={title} onClick={() => setSelectedGame(game)} className="group relative min-h-36 overflow-hidden rounded-[24px] border border-white/[.08] bg-[#111111] p-6 text-left transition hover:border-[#f5c542]/25">
-                  <div className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: game.accent }} /><Icon className="absolute -bottom-5 right-2 size-36 rotate-[-8deg] text-white/[.08]" strokeWidth={1} /><div className="relative"><p className="text-xs font-black uppercase tracking-[.16em] text-zinc-500">{game.name}</p><p className="mt-2 text-2xl font-black text-white">{title}</p><p className="mt-1 text-sm text-zinc-400">{copy}</p></div>
+                  <div className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: game.accent }} /><img src={game.iconImage} alt="" className="absolute right-4 top-1/2 size-24 -translate-y-1/2 rounded-2xl object-cover opacity-35" /><div className="relative max-w-[65%]"><p className="text-xs font-black uppercase tracking-[.12em] text-zinc-500">{game.name}</p><p className="mt-2 text-2xl font-black leading-tight text-white">{title}</p><p className="mt-1 text-sm text-zinc-400">{copy}</p></div>
                 </motion.button>
               ))}
             </div>
