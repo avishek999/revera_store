@@ -251,7 +251,7 @@ function Logo({ compact = false }: { compact?: boolean }) {
       </div>
       {!compact && (
         <div>
-          <div className="text-[17px] font-black leading-none tracking-[.1em] text-white">REVERA <span className="text-[#f5c542]">STORE</span></div>
+          <div className="text-[17px] font-bold leading-none tracking-[.1em] text-white">REVERA <span className="text-[#f5c542]">STORE</span></div>
           <div className="mt-1 text-[8px] font-bold uppercase tracking-[.22em] text-[#d7d8dc]/70">Account · Buy · Sell</div>
         </div>
       )}
@@ -263,7 +263,7 @@ function SectionHeading({ kicker, title, copy }: { kicker: string; title: string
   return (
     <div className="max-w-2xl">
       <p className="section-kicker">{kicker}</p>
-      <h2 className="mt-3 text-balance text-3xl font-black tracking-[-.035em] text-white sm:text-4xl lg:text-5xl">{title}</h2>
+      <h2 className="mt-3 text-balance text-3xl font-bold tracking-[-.035em] text-white sm:text-4xl lg:text-5xl">{title}</h2>
       {copy && <p className="mt-4 max-w-xl text-sm leading-7 text-zinc-400 sm:text-base">{copy}</p>}
     </div>
   );
@@ -362,8 +362,8 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
               <>
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-xs font-black uppercase tracking-[.18em] text-[#f5c542]">01 · Account</p>
-                    <h3 className="mt-1 text-lg font-black text-white">Enter player details</h3>
+                    <p className="text-xs font-bold uppercase tracking-[.18em] text-[#f5c542]">01 · Account</p>
+                    <h3 className="mt-1 text-lg font-bold text-white">Enter player details</h3>
                   </div>
                   <Badge variant="neutral">Secure flow</Badge>
                 </div>
@@ -388,7 +388,7 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
                 </AnimatePresence>
 
                 <div className="mt-6">
-                  <p className="text-xs font-black uppercase tracking-[.18em] text-[#f5c542]">02 · Select package</p>
+                  <p className="text-xs font-bold uppercase tracking-[.18em] text-[#f5c542]">02 · Select package</p>
                   <div className="mt-3 grid grid-cols-2 gap-2.5">
                     {packageSets.map((item, index) => (
                       <button
@@ -399,31 +399,31 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
                           selectedPackage === index ? "border-[#f5c542]/60 bg-[#f5c542]/10" : "border-white/[.08] bg-white/[.025] hover:bg-white/[.05]",
                         )}
                       >
-                        <span className={cn("text-[9px] font-black uppercase tracking-[.12em]", selectedPackage === index ? "text-[#f5c542]" : "text-zinc-600")}>{item.tag}</span>
-                        <p className="mt-1 truncate text-sm font-black text-white">{item.amount}</p>
+                        <span className={cn("text-[9px] font-bold uppercase tracking-[.12em]", selectedPackage === index ? "text-[#f5c542]" : "text-zinc-600")}>{item.tag}</span>
+                        <p className="mt-1 truncate text-sm font-bold text-white">{item.amount}</p>
                         <p className="truncate text-[10px] text-zinc-500">{item.bonus}</p>
-                        <div className="mt-2 flex items-end gap-1.5"><span className="text-sm font-black text-white">₹{item.price}</span><span className="text-[10px] text-zinc-600 line-through">₹{item.oldPrice}</span></div>
+                        <div className="mt-2 flex items-end gap-1.5"><span className="text-sm font-bold text-white">₹{item.price}</span><span className="text-[10px] text-zinc-600 line-through">₹{item.oldPrice}</span></div>
                       </button>
                     ))}
                   </div>
                 </div>
 
                 <div className="mt-5 flex items-center justify-between border-t border-white/[.08] pt-5">
-                  <div><p className="text-[11px] text-zinc-500">Total payable</p><p className="text-2xl font-black text-white">₹{pkg.price}</p></div>
+                  <div><p className="text-[11px] text-zinc-500">Total payable</p><p className="text-2xl font-bold text-white">₹{pkg.price}</p></div>
                   <Button size="lg" onClick={() => setShowCheckout(true)} disabled={!verified}>Continue <ArrowRight className="size-4" /></Button>
                 </div>
               </>
             ) : (
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                 <Badge variant="success"><ShieldCheck className="size-3" /> Secure checkout</Badge>
-                <h3 className="mt-4 text-2xl font-black text-white">Ready to power up.</h3>
+                <h3 className="mt-4 text-2xl font-bold text-white">Ready to power up.</h3>
                 <p className="mt-2 text-sm leading-6 text-zinc-400">Complete payment through our secure hosted checkout. Your order begins processing after payment confirmation.</p>
                 <div className="mt-6 space-y-3 rounded-2xl border border-white/[.08] bg-black/20 p-4">
                   <div className="flex justify-between text-sm"><span className="text-zinc-500">Game</span><span className="font-bold text-white">{game.name}</span></div>
                   <div className="flex justify-between text-sm"><span className="text-zinc-500">Player</span><span className="font-bold text-white">ReveraPlayer_24</span></div>
                   <div className="flex justify-between text-sm"><span className="text-zinc-500">Package</span><span className="font-bold text-white">{pkg.amount} {game.currency}</span></div>
                   <div className="h-px bg-white/[.08]" />
-                  <div className="flex items-end justify-between"><span className="text-sm text-zinc-400">Total</span><span className="text-3xl font-black text-white">₹{pkg.price}</span></div>
+                  <div className="flex items-end justify-between"><span className="text-sm text-zinc-400">Total</span><span className="text-3xl font-bold text-white">₹{pkg.price}</span></div>
                 </div>
                 <Button size="lg" className="mt-5 w-full" onClick={() => setShowCheckout(false)}><WalletCards className="size-4" /> Pay with UPI</Button>
                 <button onClick={() => setShowCheckout(false)} className="mt-3 w-full text-center text-xs font-bold text-zinc-500 hover:text-white">Back to packages</button>
@@ -518,7 +518,7 @@ export function Storefront() {
         <div className="relative mx-auto grid min-h-[690px] max-w-7xl items-center px-4 py-20 sm:px-6 lg:min-h-[750px] lg:grid-cols-[1.05fr_.95fr] lg:px-8">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65 }} className="max-w-2xl">
             <Badge><Sparkles className="size-3" /> Revera Store · Game marketplace</Badge>
-            <h1 className="mt-6 text-balance text-5xl font-black leading-[.94] tracking-[-.055em] text-white sm:text-6xl lg:text-[78px]">
+            <h1 className="mt-6 text-balance text-5xl font-bold leading-[.94] tracking-[-.055em] text-white sm:text-6xl lg:text-[78px]">
               Power up.<br /><motion.span initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.32, duration: 0.5 }} className="inline-block text-[#f5c542]">Skip the wait.</motion.span>
             </h1>
             <p className="mt-6 max-w-xl text-base leading-7 text-zinc-300 sm:text-lg">One fast, secure destination for game credits, passes, and vouchers across the titles you play most.</p>
@@ -535,7 +535,7 @@ export function Storefront() {
 
           <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 0.65 }} className="mt-10 hidden justify-self-end lg:block">
             <div className="glass w-[330px] rounded-[28px] p-4">
-              <div className="flex items-center justify-between"><div><p className="text-[10px] font-black uppercase tracking-[.18em] text-zinc-500">Trending now</p><p className="mt-1 text-lg font-black text-white">Quick top-up</p></div><div className="grid size-10 place-items-center rounded-xl bg-[#f5c542]/15 text-[#f5c542]"><Bolt className="size-5" /></div></div>
+              <div className="flex items-center justify-between"><div><p className="text-[10px] font-bold uppercase tracking-[.18em] text-zinc-500">Trending now</p><p className="mt-1 text-lg font-bold text-white">Quick top-up</p></div><div className="grid size-10 place-items-center rounded-xl bg-[#f5c542]/15 text-[#f5c542]"><Bolt className="size-5" /></div></div>
               <div className="mt-4 space-y-2">
                 {games.slice(0, 3).map((game, index) => (
                   <motion.button whileHover={{ x: 4 }} key={game.id} onClick={() => setSelectedGame(game)} className="flex w-full items-center gap-3 rounded-2xl border border-white/[.07] bg-black/20 p-3 text-left transition hover:border-[#f5c542]/30 hover:bg-white/[.06]">
@@ -596,13 +596,13 @@ export function Storefront() {
           <div className="mt-9 grid gap-4 lg:grid-cols-[1.25fr_.75fr]">
             <motion.button whileHover={{ y: -5 }} onClick={() => setSelectedGame(games[0])} className="group relative min-h-80 overflow-hidden rounded-[28px] border border-[#f5c542]/20 bg-[#17140b] p-7 text-left sm:p-9">
               <motion.div animate={{ rotate: [0, 7, 0], y: [0, -8, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-16 -top-16 size-80 rounded-full border border-[#f5c542]/15 bg-[#f5c542]/[.05]" />
-              <div className="relative max-w-md"><Badge variant="warning"><Sparkles className="size-3" /> Weekend drop</Badge><h3 className="mt-5 text-3xl font-black tracking-[-.04em] text-white sm:text-4xl">Double the energy.<br />Keep the momentum.</h3><p className="mt-4 text-sm leading-6 text-zinc-400">Explore special passes, first-recharge packs, and limited seasonal bundles at competitive prices.</p><div className="mt-8 inline-flex items-center gap-2 text-sm font-black text-[#f5c542]">Unlock deal <ArrowRight className="size-4 transition group-hover:translate-x-1" /></div></div>
+              <div className="relative max-w-md"><Badge variant="warning"><Sparkles className="size-3" /> Weekend drop</Badge><h3 className="mt-5 text-3xl font-bold tracking-[-.04em] text-white sm:text-4xl">Double the energy.<br />Keep the momentum.</h3><p className="mt-4 text-sm leading-6 text-zinc-400">Explore special passes, first-recharge packs, and limited seasonal bundles at competitive prices.</p><div className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#f5c542]">Unlock deal <ArrowRight className="size-4 transition group-hover:translate-x-1" /></div></div>
               <motion.img animate={{ y: [0, -8, 0], rotate: [-3, 2, -3] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} src={games[0].iconImage} alt="" className="absolute bottom-8 right-8 hidden size-48 rounded-[28px] border border-white/10 object-cover opacity-45 shadow-2xl lg:block" />
             </motion.button>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
               {[{ game: games[1], title: "UC Rush", copy: "Battle-ready packs from ₹69" }, { game: games[4], title: "Crystal Week", copy: "Adventure bundles from ₹89" }].map(({ game, title, copy }) => (
                 <motion.button whileHover={{ x: 5 }} key={title} onClick={() => setSelectedGame(game)} className="group relative min-h-36 overflow-hidden rounded-[24px] border border-white/[.08] bg-[#111111] p-6 text-left transition hover:border-[#f5c542]/25">
-                  <div className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: game.accent }} /><img src={game.iconImage} alt="" className="absolute right-4 top-1/2 size-24 -translate-y-1/2 rounded-2xl object-cover opacity-35" /><div className="relative max-w-[65%]"><p className="text-xs font-black uppercase tracking-[.12em] text-zinc-500">{game.name}</p><p className="mt-2 text-2xl font-black leading-tight text-white">{title}</p><p className="mt-1 text-sm text-zinc-400">{copy}</p></div>
+                  <div className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: game.accent }} /><img src={game.iconImage} alt="" className="absolute right-4 top-1/2 size-24 -translate-y-1/2 rounded-2xl object-cover opacity-35" /><div className="relative max-w-[65%]"><p className="text-xs font-bold uppercase tracking-[.12em] text-zinc-500">{game.name}</p><p className="mt-2 text-2xl font-bold leading-tight text-white">{title}</p><p className="mt-1 text-sm text-zinc-400">{copy}</p></div>
                 </motion.button>
               ))}
             </div>
@@ -620,8 +620,8 @@ export function Storefront() {
             { n: "03", icon: Zap, title: "Pay and power up", copy: "Complete a secure hosted checkout and follow delivery from paid to completed." },
           ].map(({ n, icon: Icon, title, copy }, index) => (
             <motion.div key={title} whileHover={{ y: -5 }} className="relative overflow-hidden rounded-[26px] border border-white/[.08] bg-white/[.025] p-7">
-              <div className="flex items-center justify-between"><div className="grid size-12 place-items-center rounded-2xl border border-[#f5c542]/20 bg-[#f5c542]/10 text-[#f5c542]"><Icon className="size-5" /></div><span className="text-5xl font-black tracking-[-.08em] text-white/[.055]">{n}</span></div>
-              <h3 className="mt-8 text-xl font-black text-white">{title}</h3><p className="mt-3 text-sm leading-7 text-zinc-500">{copy}</p>
+              <div className="flex items-center justify-between"><div className="grid size-12 place-items-center rounded-2xl border border-[#f5c542]/20 bg-[#f5c542]/10 text-[#f5c542]"><Icon className="size-5" /></div><span className="text-5xl font-bold tracking-[-.08em] text-white/[.055]">{n}</span></div>
+              <h3 className="mt-8 text-xl font-bold text-white">{title}</h3><p className="mt-3 text-sm leading-7 text-zinc-500">{copy}</p>
               {index < 2 && <ArrowRight className="absolute -right-3 top-1/2 hidden size-6 text-[#f5c542]/30 lg:block" />}
             </motion.div>
           ))}
@@ -632,7 +632,7 @@ export function Storefront() {
         <div className="relative overflow-hidden rounded-[32px] border border-white/[.08] bg-[#111111] p-7 sm:p-10 lg:p-14">
           <motion.div animate={{ scale: [1, 1.08, 1] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute right-[-10%] top-[-60%] size-[480px] rounded-full border border-[#d7d8dc]/10 bg-white/[.02]" />
           <div className="relative grid items-center gap-10 lg:grid-cols-[1fr_.8fr]">
-            <div><Badge variant="success"><ShieldCheck className="size-3" /> Trust layer</Badge><h2 className="mt-5 text-balance text-3xl font-black tracking-[-.04em] text-white sm:text-4xl">Built to protect every click between pay and play.</h2><p className="mt-4 max-w-xl text-sm leading-7 text-zinc-400">The production build will verify signed payment webhooks, prevent duplicate fulfillment, and keep game credentials out of checkout entirely.</p></div>
+            <div><Badge variant="success"><ShieldCheck className="size-3" /> Trust layer</Badge><h2 className="mt-5 text-balance text-3xl font-bold tracking-[-.04em] text-white sm:text-4xl">Built to protect every click between pay and play.</h2><p className="mt-4 max-w-xl text-sm leading-7 text-zinc-400">The production build will verify signed payment webhooks, prevent duplicate fulfillment, and keep game credentials out of checkout entirely.</p></div>
             <div className="grid gap-3 sm:grid-cols-2">
               {[{ icon: ShieldCheck, label: "Signed webhooks" }, { icon: User, label: "No passwords" }, { icon: BadgeCheck, label: "Player pre-check" }, { icon: Headphones, label: "Human escalation" }].map(({ icon: Icon, label }) => <div key={label} className="flex items-center gap-3 rounded-2xl border border-white/[.07] bg-black/20 p-4"><div className="grid size-9 place-items-center rounded-xl bg-[#d7d8dc]/10 text-[#d7d8dc]"><Icon className="size-4" /></div><span className="text-xs font-extrabold text-zinc-200">{label}</span></div>)}
             </div>
@@ -653,7 +653,7 @@ export function Storefront() {
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
             <div><Logo /><p className="mt-5 max-w-xs text-sm leading-6 text-zinc-500">A fast, secure destination for game top-ups, passes, vouchers, and account marketplace services.</p></div>
-            {[{ title: "Store", links: ["All games", "Deals", "Track order"] }, { title: "Help", links: ["Support", "Refund policy", "Player ID guide"] }, { title: "Company", links: ["About", "Terms", "Privacy"] }].map((group) => <div key={group.title}><p className="text-xs font-black uppercase tracking-[.17em] text-zinc-300">{group.title}</p><div className="mt-4 grid gap-3">{group.links.map((link) => <a href="#" key={link} className="text-sm text-zinc-600 transition hover:text-[#f5c542]">{link}</a>)}</div></div>)}
+            {[{ title: "Store", links: ["All games", "Deals", "Track order"] }, { title: "Help", links: ["Support", "Refund policy", "Player ID guide"] }, { title: "Company", links: ["About", "Terms", "Privacy"] }].map((group) => <div key={group.title}><p className="text-xs font-bold uppercase tracking-[.17em] text-zinc-300">{group.title}</p><div className="mt-4 grid gap-3">{group.links.map((link) => <a href="#" key={link} className="text-sm text-zinc-600 transition hover:text-[#f5c542]">{link}</a>)}</div></div>)}
           </div>
           <div className="mt-12 flex flex-col gap-3 border-t border-white/[.07] pt-6 text-[11px] text-zinc-700 sm:flex-row sm:items-center sm:justify-between"><span>© 2026 Revera Store. All rights reserved.</span><span>Game names belong to their respective owners. No affiliation implied.</span></div>
         </div>
