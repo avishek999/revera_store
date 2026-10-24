@@ -44,7 +44,7 @@ type Game = {
   category: "MOBA" | "Battle Royale" | "RPG" | "Shooter";
   currency: string;
   accent: string;
-  gradient: string;
+  surface: string;
   icon: React.ElementType;
   badge?: string;
   fields: string[];
@@ -58,7 +58,7 @@ const games: Game[] = [
     category: "MOBA",
     currency: "Diamonds",
     accent: "#8b5cf6",
-    gradient: "from-violet-500/80 via-indigo-500/40 to-[#10152c]",
+    surface: "#2a2010",
     icon: Swords,
     badge: "Most popular",
     fields: ["Player ID", "Zone ID"],
@@ -70,7 +70,7 @@ const games: Game[] = [
     category: "Battle Royale",
     currency: "UC",
     accent: "#f59e0b",
-    gradient: "from-amber-500/75 via-orange-600/35 to-[#211308]",
+    surface: "#30220d",
     icon: Crosshair,
     badge: "India",
     fields: ["Character ID"],
@@ -82,7 +82,7 @@ const games: Game[] = [
     category: "Battle Royale",
     currency: "UC",
     accent: "#fb923c",
-    gradient: "from-orange-500/75 via-red-500/35 to-[#21100c]",
+    surface: "#2b1c10",
     icon: Target,
     fields: ["Player ID"],
   },
@@ -93,7 +93,7 @@ const games: Game[] = [
     category: "Battle Royale",
     currency: "Diamonds",
     accent: "#ef4444",
-    gradient: "from-red-500/75 via-rose-500/35 to-[#240e18]",
+    surface: "#2a1515",
     icon: Zap,
     badge: "Hot",
     fields: ["Player ID"],
@@ -105,7 +105,7 @@ const games: Game[] = [
     category: "RPG",
     currency: "Genesis Crystals",
     accent: "#22d3ee",
-    gradient: "from-cyan-400/70 via-sky-500/35 to-[#091c29]",
+    surface: "#152329",
     icon: WandSparkles,
     fields: ["UID", "Server"],
   },
@@ -116,7 +116,7 @@ const games: Game[] = [
     category: "Shooter",
     currency: "VP",
     accent: "#fb7185",
-    gradient: "from-rose-500/75 via-pink-500/35 to-[#240d19]",
+    surface: "#281619",
     icon: Crosshair,
     badge: "Gift card",
     fields: ["Email for delivery"],
@@ -128,7 +128,7 @@ const games: Game[] = [
     category: "RPG",
     currency: "Oneiric Shards",
     accent: "#60a5fa",
-    gradient: "from-blue-500/75 via-indigo-500/35 to-[#10132a]",
+    surface: "#18202c",
     icon: Sparkles,
     fields: ["UID", "Server"],
   },
@@ -139,7 +139,7 @@ const games: Game[] = [
     category: "RPG",
     currency: "Lunites",
     accent: "#2dd4bf",
-    gradient: "from-teal-400/75 via-emerald-500/30 to-[#071d1d]",
+    surface: "#132522",
     icon: Bolt,
     badge: "New",
     fields: ["UID", "Server"],
@@ -151,7 +151,7 @@ const games: Game[] = [
     category: "Shooter",
     currency: "CP",
     accent: "#facc15",
-    gradient: "from-yellow-400/75 via-amber-500/30 to-[#211b08]",
+    surface: "#2b250f",
     icon: Target,
     fields: ["Player ID"],
   },
@@ -162,7 +162,7 @@ const games: Game[] = [
     category: "MOBA",
     currency: "Tokens",
     accent: "#c084fc",
-    gradient: "from-fuchsia-500/70 via-violet-500/30 to-[#1d0c24]",
+    surface: "#24192a",
     icon: Trophy,
     fields: ["Player ID", "Region"],
   },
@@ -173,7 +173,7 @@ const games: Game[] = [
     category: "MOBA",
     currency: "Gold Pass",
     accent: "#4ade80",
-    gradient: "from-green-400/70 via-emerald-600/30 to-[#0b2114]",
+    surface: "#17251b",
     icon: ShieldCheck,
     fields: ["Player Tag"],
   },
@@ -184,7 +184,7 @@ const games: Game[] = [
     category: "RPG",
     currency: "Monochrome",
     accent: "#a3e635",
-    gradient: "from-lime-400/70 via-green-500/25 to-[#172107]",
+    surface: "#202711",
     icon: Gamepad2,
     fields: ["UID", "Server"],
   },
@@ -222,18 +222,17 @@ const faq = [
 
 function Logo({ compact = false }: { compact?: boolean }) {
   return (
-    <div className="flex items-center gap-2.5" aria-label="NEXORA home">
-      <div className="relative grid size-10 place-items-center overflow-hidden rounded-[14px] border border-violet-300/20 bg-violet-500/15 shadow-[0_0_30px_rgba(124,58,237,.25)]">
-        <span className="bg-gradient-to-br from-violet-200 via-violet-400 to-cyan-300 bg-clip-text text-[24px] font-black italic leading-none tracking-[-.18em] text-transparent" aria-hidden="true">N</span>
-        <span className="absolute bottom-1.5 h-[2px] w-4 rounded-full bg-gradient-to-r from-violet-400 to-cyan-300" aria-hidden="true" />
+    <motion.div whileHover={{ scale: 1.035 }} transition={{ type: "spring", stiffness: 380, damping: 22 }} className="flex items-center gap-2.5" aria-label="Revera Store home">
+      <div className="relative grid size-11 place-items-center overflow-hidden rounded-[13px] border border-[#f5c542]/30 bg-[#111111] shadow-[0_0_28px_rgba(245,197,66,.12)]">
+        <img src="/images/revera-logo.jpg" alt="" className="size-full object-cover" />
       </div>
       {!compact && (
         <div>
-          <div className="text-[17px] font-black leading-none tracking-[.15em] text-white">NEXORA</div>
-          <div className="mt-1 text-[8px] font-bold uppercase tracking-[.24em] text-violet-300/80">Play beyond</div>
+          <div className="text-[17px] font-black leading-none tracking-[.1em] text-white">REVERA <span className="text-[#f5c542]">STORE</span></div>
+          <div className="mt-1 text-[8px] font-bold uppercase tracking-[.22em] text-[#d7d8dc]/70">Account · Buy · Sell</div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
 
@@ -250,15 +249,14 @@ function SectionHeading({ kicker, title, copy }: { kicker: string; title: string
 function GameArtwork({ game, large = false }: { game: Game; large?: boolean }) {
   const Icon = game.icon;
   return (
-    <div className={cn("relative overflow-hidden bg-gradient-to-br", game.gradient, large ? "h-full min-h-48" : "aspect-[4/3]") }>
-      <div className="absolute -right-6 -top-8 size-32 rounded-full bg-white/10 blur-3xl" />
-      <div className="absolute bottom-[-20%] left-[-10%] size-40 rounded-full bg-black/30 blur-2xl" />
-      <div className="absolute inset-0 grid-lines opacity-25" />
+    <div className={cn("relative overflow-hidden", large ? "h-full min-h-48" : "aspect-[4/3]")} style={{ backgroundColor: game.surface }}>
+      <motion.div animate={{ rotate: [0, 8, 0], scale: [1, 1.06, 1] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-7 -top-9 size-32 rounded-full border border-white/10 bg-white/[.04]" />
+      <div className="absolute bottom-[-20%] left-[-10%] size-40 rounded-full bg-black/30" />
       <div className={cn("absolute right-3 top-3 font-black tracking-[-.08em] text-white/[.09]", large ? "text-8xl" : "text-6xl")}>{game.short}</div>
       <div className={cn("absolute rounded-[22px] border border-white/15 bg-black/20 shadow-2xl backdrop-blur-md", large ? "bottom-8 left-8 p-5" : "bottom-4 left-4 p-3") }>
         <Icon className={cn("text-white", large ? "size-10" : "size-7")} strokeWidth={1.8} />
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0c0f1b] to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-16 bg-[#0c0c0c]/35" />
     </div>
   );
 }
@@ -272,7 +270,7 @@ function GameCard({ game, onSelect }: { game: Game; onSelect: (game: Game) => vo
       whileHover={{ y: -6 }}
       transition={{ duration: 0.25 }}
       onClick={() => onSelect(game)}
-      className="glow-border group relative overflow-hidden rounded-[22px] border border-white/[.08] bg-[#0d101b] text-left shadow-[0_18px_45px_rgba(0,0,0,.24)] outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+      className="glow-border group relative overflow-hidden rounded-[22px] border border-white/[.08] bg-[#111111] text-left shadow-[0_18px_45px_rgba(0,0,0,.24)] outline-none focus-visible:ring-2 focus-visible:ring-[#f5c542]"
     >
       <GameArtwork game={game} />
       {game.badge && (
@@ -285,7 +283,7 @@ function GameCard({ game, onSelect }: { game: Game; onSelect: (game: Game) => vo
           <p className="truncate text-sm font-extrabold text-white sm:text-[15px]">{game.name}</p>
           <p className="mt-1 text-[11px] font-medium text-zinc-500">{game.currency}</p>
         </div>
-        <div className="grid size-8 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[.05] text-zinc-400 transition group-hover:border-violet-400/30 group-hover:bg-violet-500/15 group-hover:text-violet-200">
+        <div className="grid size-8 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[.05] text-zinc-400 transition group-hover:border-[#f5c542]/35 group-hover:bg-[#f5c542]/10 group-hover:text-[#f5c542]">
           <ChevronRight className="size-4" />
         </div>
       </div>
@@ -326,7 +324,7 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
           <div className="relative min-h-52 overflow-hidden rounded-t-[28px] md:min-h-full md:rounded-l-[28px] md:rounded-tr-none">
             <GameArtwork game={game} large />
             <div className="absolute inset-x-0 bottom-0 z-10 p-6">
-              <Badge variant="success"><span className="size-1.5 rounded-full bg-emerald-300" /> Available</Badge>
+              <Badge variant="success"><span className="size-1.5 rounded-full bg-[#f5c542]" /> Available</Badge>
               <DialogTitle className="mt-3 text-2xl">{game.name}</DialogTitle>
               <DialogDescription className="mt-1 text-zinc-300">Top up {game.currency} securely.</DialogDescription>
             </div>
@@ -337,7 +335,7 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
               <>
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-xs font-black uppercase tracking-[.18em] text-violet-300">01 · Account</p>
+                    <p className="text-xs font-black uppercase tracking-[.18em] text-[#f5c542]">01 · Account</p>
                     <h3 className="mt-1 text-lg font-black text-white">Enter player details</h3>
                   </div>
                   <Badge variant="neutral">Demo mode</Badge>
@@ -354,27 +352,27 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
                 <AnimatePresence>
                   {verified && (
                     <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
-                      <div className="mt-3 flex items-center gap-3 rounded-xl border border-emerald-400/20 bg-emerald-400/[.07] p-3">
-                        <div className="grid size-9 place-items-center rounded-full bg-emerald-400/15 text-emerald-300"><BadgeCheck className="size-5" /></div>
-                        <div><p className="text-xs text-emerald-200/70">Player found</p><p className="text-sm font-extrabold text-white">NexoraPlayer_24</p></div>
+                      <div className="mt-3 flex items-center gap-3 rounded-xl border border-[#f5c542]/25 bg-[#f5c542]/[.07] p-3">
+                        <div className="grid size-9 place-items-center rounded-full bg-[#f5c542]/15 text-[#f5c542]"><BadgeCheck className="size-5" /></div>
+                        <div><p className="text-xs text-[#d7d8dc]/70">Player found</p><p className="text-sm font-extrabold text-white">ReveraPlayer_24</p></div>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
 
                 <div className="mt-6">
-                  <p className="text-xs font-black uppercase tracking-[.18em] text-violet-300">02 · Select package</p>
+                  <p className="text-xs font-black uppercase tracking-[.18em] text-[#f5c542]">02 · Select package</p>
                   <div className="mt-3 grid grid-cols-2 gap-2.5">
                     {packageSets.map((item, index) => (
                       <button
                         key={item.amount}
                         onClick={() => setSelectedPackage(index)}
                         className={cn(
-                          "relative rounded-2xl border p-3 text-left transition outline-none focus-visible:ring-2 focus-visible:ring-violet-400",
-                          selectedPackage === index ? "border-violet-400/60 bg-violet-500/15" : "border-white/[.08] bg-white/[.025] hover:bg-white/[.05]",
+                          "relative rounded-2xl border p-3 text-left transition outline-none focus-visible:ring-2 focus-visible:ring-[#f5c542]",
+                          selectedPackage === index ? "border-[#f5c542]/60 bg-[#f5c542]/10" : "border-white/[.08] bg-white/[.025] hover:bg-white/[.05]",
                         )}
                       >
-                        <span className={cn("text-[9px] font-black uppercase tracking-[.12em]", selectedPackage === index ? "text-violet-300" : "text-zinc-600")}>{item.tag}</span>
+                        <span className={cn("text-[9px] font-black uppercase tracking-[.12em]", selectedPackage === index ? "text-[#f5c542]" : "text-zinc-600")}>{item.tag}</span>
                         <p className="mt-1 truncate text-sm font-black text-white">{item.amount}</p>
                         <p className="truncate text-[10px] text-zinc-500">{item.bonus}</p>
                         <div className="mt-2 flex items-end gap-1.5"><span className="text-sm font-black text-white">₹{item.price}</span><span className="text-[10px] text-zinc-600 line-through">₹{item.oldPrice}</span></div>
@@ -395,7 +393,7 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
                 <p className="mt-2 text-sm leading-6 text-zinc-400">This is the frontend demo. Production will open the approved hosted payment gateway here.</p>
                 <div className="mt-6 space-y-3 rounded-2xl border border-white/[.08] bg-black/20 p-4">
                   <div className="flex justify-between text-sm"><span className="text-zinc-500">Game</span><span className="font-bold text-white">{game.name}</span></div>
-                  <div className="flex justify-between text-sm"><span className="text-zinc-500">Player</span><span className="font-bold text-white">NexoraPlayer_24</span></div>
+                  <div className="flex justify-between text-sm"><span className="text-zinc-500">Player</span><span className="font-bold text-white">ReveraPlayer_24</span></div>
                   <div className="flex justify-between text-sm"><span className="text-zinc-500">Package</span><span className="font-bold text-white">{pkg.amount} {game.currency}</span></div>
                   <div className="h-px bg-white/[.08]" />
                   <div className="flex items-end justify-between"><span className="text-sm text-zinc-400">Total</span><span className="text-3xl font-black text-white">₹{pkg.price}</span></div>
@@ -427,8 +425,8 @@ function TrackOrderDialog({ open, onClose }: { open: boolean; onClose: () => voi
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-6 rounded-2xl border border-white/[.08] bg-black/20 p-4">
             {["Payment confirmed", "Player verified", "Top-up delivered"].map((label, index) => (
               <div key={label} className="relative flex gap-3 pb-5 last:pb-0">
-                {index < 2 && <div className="absolute left-[9px] top-5 h-full w-px bg-emerald-400/30" />}
-                <div className="z-10 mt-0.5 grid size-5 place-items-center rounded-full bg-emerald-400 text-[#06120d]"><BadgeCheck className="size-3" /></div>
+                {index < 2 && <div className="absolute left-[9px] top-5 h-full w-px bg-[#f5c542]/35" />}
+                <div className="z-10 mt-0.5 grid size-5 place-items-center rounded-full bg-[#f5c542] text-[#080808]"><BadgeCheck className="size-3" /></div>
                 <div><p className="text-sm font-bold text-white">{label}</p><p className="mt-0.5 text-[11px] text-zinc-500">{index === 2 ? "Completed just now" : `${index + 1} min ago`}</p></div>
               </div>
             ))}
@@ -456,8 +454,8 @@ export function Storefront() {
 
   return (
     <main className="overflow-hidden pb-20 md:pb-0">
-      <div className="border-b border-violet-400/10 bg-violet-500/[.07] px-4 py-2 text-center text-[10px] font-extrabold uppercase tracking-[.16em] text-violet-200 sm:text-[11px]">
-        <span className="mr-2 inline-block size-1.5 animate-pulse rounded-full bg-emerald-400" /> Client preview · Payments are simulated in this demo
+      <div className="border-b border-[#f5c542]/15 bg-[#15130c] px-4 py-2 text-center text-[10px] font-extrabold uppercase tracking-[.16em] text-[#f5c542] sm:text-[11px]">
+        <span className="mr-2 inline-block size-1.5 animate-pulse rounded-full bg-[#d7d8dc]" /> Client preview · Payments are simulated in this demo
       </div>
 
       <header className="sticky top-0 z-40 border-b border-white/[.07] bg-[#070912]/85 backdrop-blur-xl">
@@ -487,15 +485,14 @@ export function Storefront() {
         </AnimatePresence>
       </header>
 
-      <section className="relative isolate min-h-[690px] border-b border-white/[.06] noise lg:min-h-[750px]">
-        <div className="absolute inset-0 bg-cover bg-[62%_center] lg:bg-center" style={{ backgroundImage: "url('/images/nexora-hero.png')" }} />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,#070912_0%,rgba(7,9,18,.96)_31%,rgba(7,9,18,.62)_58%,rgba(7,9,18,.08)_100%)]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#070912] via-transparent to-[#070912]/25" />
+      <section className="relative isolate min-h-[690px] border-b border-white/[.06] bg-[#060606] noise lg:min-h-[750px]">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.32 }} transition={{ duration: 1.1 }} className="absolute inset-0 bg-cover bg-[62%_center] grayscale lg:bg-center" style={{ backgroundImage: "url('/images/revera-hero.png')" }} />
+        <div className="absolute inset-0 bg-black/45" />
         <div className="relative mx-auto grid min-h-[690px] max-w-7xl items-center px-4 py-20 sm:px-6 lg:min-h-[750px] lg:grid-cols-[1.05fr_.95fr] lg:px-8">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65 }} className="max-w-2xl">
-            <Badge><Sparkles className="size-3" /> A new era of game top-ups</Badge>
+            <Badge><Sparkles className="size-3" /> Revera Store · Game marketplace</Badge>
             <h1 className="mt-6 text-balance text-5xl font-black leading-[.94] tracking-[-.055em] text-white sm:text-6xl lg:text-[78px]">
-              Power up.<br /><span className="bg-gradient-to-r from-violet-300 via-violet-500 to-cyan-300 bg-clip-text text-transparent">Skip the wait.</span>
+              Power up.<br /><motion.span initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.32, duration: 0.5 }} className="inline-block text-[#f5c542]">Skip the wait.</motion.span>
             </h1>
             <p className="mt-6 max-w-xl text-base leading-7 text-zinc-300 sm:text-lg">One fast, secure destination for game credits, passes, and vouchers across the titles you play most.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -503,22 +500,22 @@ export function Storefront() {
               <Button size="lg" variant="secondary" onClick={() => setTrackOpen(true)}><ShoppingBag className="size-4" /> Track an order</Button>
             </div>
             <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-xs font-semibold text-zinc-400">
-              <span className="flex items-center gap-2"><ShieldCheck className="size-4 text-emerald-400" /> Secure checkout</span>
+              <span className="flex items-center gap-2"><ShieldCheck className="size-4 text-[#f5c542]" /> Secure checkout</span>
               <span className="flex items-center gap-2"><Zap className="size-4 text-amber-300" /> Instant-ready flow</span>
-              <span className="flex items-center gap-2"><Headphones className="size-4 text-cyan-300" /> Human support</span>
+              <span className="flex items-center gap-2"><Headphones className="size-4 text-[#d7d8dc]" /> Human support</span>
             </div>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 0.65 }} className="mt-10 hidden justify-self-end lg:block">
             <div className="glass w-[330px] rounded-[28px] p-4">
-              <div className="flex items-center justify-between"><div><p className="text-[10px] font-black uppercase tracking-[.18em] text-zinc-500">Trending now</p><p className="mt-1 text-lg font-black text-white">Quick top-up</p></div><div className="grid size-10 place-items-center rounded-xl bg-violet-500/20 text-violet-300"><Bolt className="size-5" /></div></div>
+              <div className="flex items-center justify-between"><div><p className="text-[10px] font-black uppercase tracking-[.18em] text-zinc-500">Trending now</p><p className="mt-1 text-lg font-black text-white">Quick top-up</p></div><div className="grid size-10 place-items-center rounded-xl bg-[#f5c542]/15 text-[#f5c542]"><Bolt className="size-5" /></div></div>
               <div className="mt-4 space-y-2">
                 {games.slice(0, 3).map((game, index) => {
                   const Icon = game.icon;
-                  return <button key={game.id} onClick={() => setSelectedGame(game)} className="flex w-full items-center gap-3 rounded-2xl border border-white/[.07] bg-black/20 p-3 text-left transition hover:border-violet-400/30 hover:bg-white/[.06]"><div className={cn("grid size-11 place-items-center rounded-xl bg-gradient-to-br", game.gradient)}><Icon className="size-5 text-white" /></div><div className="min-w-0 flex-1"><p className="truncate text-sm font-extrabold text-white">{game.name}</p><p className="text-[10px] text-zinc-500">From ₹{[26, 69, 79][index]}</p></div><ChevronRight className="size-4 text-zinc-600" /></button>;
+                  return <motion.button whileHover={{ x: 4 }} key={game.id} onClick={() => setSelectedGame(game)} className="flex w-full items-center gap-3 rounded-2xl border border-white/[.07] bg-black/20 p-3 text-left transition hover:border-[#f5c542]/30 hover:bg-white/[.06]"><div className="grid size-11 place-items-center rounded-xl" style={{ backgroundColor: game.surface }}><Icon className="size-5 text-white" /></div><div className="min-w-0 flex-1"><p className="truncate text-sm font-extrabold text-white">{game.name}</p><p className="text-[10px] text-zinc-500">From ₹{[26, 69, 79][index]}</p></div><ChevronRight className="size-4 text-zinc-600" /></motion.button>;
                 })}
               </div>
-              <button onClick={scrollToGames} className="mt-4 flex w-full items-center justify-center gap-2 text-xs font-bold text-violet-300 hover:text-violet-200">View all games <ArrowRight className="size-3" /></button>
+              <button onClick={scrollToGames} className="mt-4 flex w-full items-center justify-center gap-2 text-xs font-bold text-[#f5c542] hover:text-[#ffe080]">View all games <ArrowRight className="size-3" /></button>
             </div>
           </motion.div>
         </div>
@@ -532,7 +529,7 @@ export function Storefront() {
             { icon: ShieldCheck, title: "Payment protected", copy: "No password or OTP is ever requested" },
           ].map(({ icon: Icon, title, copy }, index) => (
             <div key={title} className={cn("flex items-center gap-4 p-5 sm:p-6", index > 0 && "border-t border-white/[.07] sm:border-l sm:border-t-0")}>
-              <div className="grid size-11 shrink-0 place-items-center rounded-2xl bg-violet-500/10 text-violet-300"><Icon className="size-5" /></div>
+              <div className="grid size-11 shrink-0 place-items-center rounded-2xl bg-[#f5c542]/10 text-[#f5c542]"><Icon className="size-5" /></div>
               <div><p className="text-sm font-extrabold text-white">{title}</p><p className="mt-1 text-[11px] text-zinc-500">{copy}</p></div>
             </div>
           ))}
@@ -549,7 +546,7 @@ export function Storefront() {
         </div>
         <div className="scrollbar-none mt-9 flex gap-2 overflow-x-auto pb-2">
           {categories.map((category) => (
-            <button key={category} onClick={() => setActiveCategory(category)} className={cn("shrink-0 rounded-full border px-4 py-2 text-xs font-extrabold transition", activeCategory === category ? "border-violet-400/40 bg-violet-500/20 text-violet-200" : "border-white/[.08] bg-white/[.025] text-zinc-500 hover:text-white")}>{category}</button>
+            <motion.button whileTap={{ scale: 0.96 }} key={category} onClick={() => setActiveCategory(category)} className={cn("shrink-0 rounded-full border px-4 py-2 text-xs font-extrabold transition", activeCategory === category ? "border-[#f5c542]/45 bg-[#f5c542]/12 text-[#f5c542]" : "border-white/[.08] bg-white/[.025] text-zinc-500 hover:text-white")}>{category}</motion.button>
           ))}
         </div>
         <motion.div layout className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-6">
@@ -567,16 +564,16 @@ export function Storefront() {
             <Button variant="ghost" className="hidden sm:flex">See all offers <ArrowRight className="size-4" /></Button>
           </div>
           <div className="mt-9 grid gap-4 lg:grid-cols-[1.25fr_.75fr]">
-            <button onClick={() => setSelectedGame(games[0])} className="group relative min-h-80 overflow-hidden rounded-[28px] border border-violet-400/15 bg-gradient-to-br from-violet-500/25 via-[#161126] to-[#0b0e18] p-7 text-left sm:p-9">
-              <div className="absolute inset-0 grid-lines opacity-30" /><div className="absolute -right-16 -top-16 size-80 rounded-full bg-violet-500/20 blur-3xl" />
-              <div className="relative max-w-md"><Badge variant="warning"><Sparkles className="size-3" /> Weekend drop</Badge><h3 className="mt-5 text-3xl font-black tracking-[-.04em] text-white sm:text-4xl">Double the energy.<br />Keep the momentum.</h3><p className="mt-4 text-sm leading-6 text-zinc-400">Preview a high-converting promotional block for passes, first-recharge packs, and seasonal bundles.</p><div className="mt-8 inline-flex items-center gap-2 text-sm font-black text-violet-300">Unlock deal <ArrowRight className="size-4 transition group-hover:translate-x-1" /></div></div>
-              <Gem className="absolute -bottom-8 right-2 size-64 rotate-[-12deg] text-violet-400/[.13] sm:right-10" strokeWidth={1} />
-            </button>
+            <motion.button whileHover={{ y: -5 }} onClick={() => setSelectedGame(games[0])} className="group relative min-h-80 overflow-hidden rounded-[28px] border border-[#f5c542]/20 bg-[#17140b] p-7 text-left sm:p-9">
+              <motion.div animate={{ rotate: [0, 7, 0], y: [0, -8, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-16 -top-16 size-80 rounded-full border border-[#f5c542]/15 bg-[#f5c542]/[.05]" />
+              <div className="relative max-w-md"><Badge variant="warning"><Sparkles className="size-3" /> Weekend drop</Badge><h3 className="mt-5 text-3xl font-black tracking-[-.04em] text-white sm:text-4xl">Double the energy.<br />Keep the momentum.</h3><p className="mt-4 text-sm leading-6 text-zinc-400">Preview a high-converting promotional block for passes, first-recharge packs, and seasonal bundles.</p><div className="mt-8 inline-flex items-center gap-2 text-sm font-black text-[#f5c542]">Unlock deal <ArrowRight className="size-4 transition group-hover:translate-x-1" /></div></div>
+              <Gem className="absolute -bottom-8 right-2 size-64 rotate-[-12deg] text-[#f5c542]/[.12] sm:right-10" strokeWidth={1} />
+            </motion.button>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
               {[{ game: games[1], title: "UC Rush", copy: "Battle-ready packs from ₹69", icon: Crosshair }, { game: games[4], title: "Crystal Week", copy: "Adventure bundles from ₹89", icon: WandSparkles }].map(({ game, title, copy, icon: Icon }) => (
-                <button key={title} onClick={() => setSelectedGame(game)} className="group relative min-h-36 overflow-hidden rounded-[24px] border border-white/[.08] bg-[#0d101b] p-6 text-left transition hover:border-white/15">
-                  <div className={cn("absolute inset-0 bg-gradient-to-r opacity-35", game.gradient)} /><Icon className="absolute -bottom-5 right-2 size-36 rotate-[-8deg] text-white/[.08]" strokeWidth={1} /><div className="relative"><p className="text-xs font-black uppercase tracking-[.16em] text-zinc-500">{game.name}</p><p className="mt-2 text-2xl font-black text-white">{title}</p><p className="mt-1 text-sm text-zinc-400">{copy}</p></div>
-                </button>
+                <motion.button whileHover={{ x: 5 }} key={title} onClick={() => setSelectedGame(game)} className="group relative min-h-36 overflow-hidden rounded-[24px] border border-white/[.08] bg-[#111111] p-6 text-left transition hover:border-[#f5c542]/25">
+                  <div className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: game.accent }} /><Icon className="absolute -bottom-5 right-2 size-36 rotate-[-8deg] text-white/[.08]" strokeWidth={1} /><div className="relative"><p className="text-xs font-black uppercase tracking-[.16em] text-zinc-500">{game.name}</p><p className="mt-2 text-2xl font-black text-white">{title}</p><p className="mt-1 text-sm text-zinc-400">{copy}</p></div>
+                </motion.button>
               ))}
             </div>
           </div>
@@ -584,7 +581,7 @@ export function Storefront() {
       </section>
 
       <section id="how" className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-        <div className="absolute left-1/2 top-1/2 -z-10 size-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500/[.06] blur-3xl" />
+        <div className="absolute left-1/2 top-1/2 -z-10 size-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#f5c542]/[.06]" />
         <SectionHeading kicker="Smooth by design" title="Three moves. Then game on." copy="The storefront removes uncertainty at every step—from account details to delivery status." />
         <div className="mt-12 grid gap-4 lg:grid-cols-3">
           {[
@@ -593,21 +590,21 @@ export function Storefront() {
             { n: "03", icon: Zap, title: "Pay and power up", copy: "Complete a secure hosted checkout and follow delivery from paid to completed." },
           ].map(({ n, icon: Icon, title, copy }, index) => (
             <motion.div key={title} whileHover={{ y: -5 }} className="relative overflow-hidden rounded-[26px] border border-white/[.08] bg-white/[.025] p-7">
-              <div className="flex items-center justify-between"><div className="grid size-12 place-items-center rounded-2xl border border-violet-400/20 bg-violet-500/10 text-violet-300"><Icon className="size-5" /></div><span className="text-5xl font-black tracking-[-.08em] text-white/[.055]">{n}</span></div>
+              <div className="flex items-center justify-between"><div className="grid size-12 place-items-center rounded-2xl border border-[#f5c542]/20 bg-[#f5c542]/10 text-[#f5c542]"><Icon className="size-5" /></div><span className="text-5xl font-black tracking-[-.08em] text-white/[.055]">{n}</span></div>
               <h3 className="mt-8 text-xl font-black text-white">{title}</h3><p className="mt-3 text-sm leading-7 text-zinc-500">{copy}</p>
-              {index < 2 && <ArrowRight className="absolute -right-3 top-1/2 hidden size-6 text-violet-300/30 lg:block" />}
+              {index < 2 && <ArrowRight className="absolute -right-3 top-1/2 hidden size-6 text-[#f5c542]/30 lg:block" />}
             </motion.div>
           ))}
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-[32px] border border-white/[.08] bg-gradient-to-br from-[#121526] to-[#0a0c15] p-7 sm:p-10 lg:p-14">
-          <div className="absolute inset-0 grid-lines opacity-20" /><div className="absolute right-[-10%] top-[-60%] size-[480px] rounded-full bg-cyan-400/[.08] blur-3xl" />
+        <div className="relative overflow-hidden rounded-[32px] border border-white/[.08] bg-[#111111] p-7 sm:p-10 lg:p-14">
+          <motion.div animate={{ scale: [1, 1.08, 1] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute right-[-10%] top-[-60%] size-[480px] rounded-full border border-[#d7d8dc]/10 bg-white/[.02]" />
           <div className="relative grid items-center gap-10 lg:grid-cols-[1fr_.8fr]">
             <div><Badge variant="success"><ShieldCheck className="size-3" /> Trust layer</Badge><h2 className="mt-5 text-balance text-3xl font-black tracking-[-.04em] text-white sm:text-4xl">Built to protect every click between pay and play.</h2><p className="mt-4 max-w-xl text-sm leading-7 text-zinc-400">The production build will verify signed payment webhooks, prevent duplicate fulfillment, and keep game credentials out of checkout entirely.</p></div>
             <div className="grid gap-3 sm:grid-cols-2">
-              {[{ icon: ShieldCheck, label: "Signed webhooks" }, { icon: User, label: "No passwords" }, { icon: BadgeCheck, label: "Player pre-check" }, { icon: Headphones, label: "Human escalation" }].map(({ icon: Icon, label }) => <div key={label} className="flex items-center gap-3 rounded-2xl border border-white/[.07] bg-black/20 p-4"><div className="grid size-9 place-items-center rounded-xl bg-cyan-400/10 text-cyan-300"><Icon className="size-4" /></div><span className="text-xs font-extrabold text-zinc-200">{label}</span></div>)}
+              {[{ icon: ShieldCheck, label: "Signed webhooks" }, { icon: User, label: "No passwords" }, { icon: BadgeCheck, label: "Player pre-check" }, { icon: Headphones, label: "Human escalation" }].map(({ icon: Icon, label }) => <div key={label} className="flex items-center gap-3 rounded-2xl border border-white/[.07] bg-black/20 p-4"><div className="grid size-9 place-items-center rounded-xl bg-[#d7d8dc]/10 text-[#d7d8dc]"><Icon className="size-4" /></div><span className="text-xs font-extrabold text-zinc-200">{label}</span></div>)}
             </div>
           </div>
         </div>
@@ -626,16 +623,16 @@ export function Storefront() {
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
             <div><Logo /><p className="mt-5 max-w-xs text-sm leading-6 text-zinc-500">A client-ready concept for a modern multi-game top-up platform. Demo content only.</p></div>
-            {[{ title: "Store", links: ["All games", "Deals", "Track order"] }, { title: "Help", links: ["Support", "Refund policy", "Player ID guide"] }, { title: "Company", links: ["About", "Terms", "Privacy"] }].map((group) => <div key={group.title}><p className="text-xs font-black uppercase tracking-[.17em] text-zinc-300">{group.title}</p><div className="mt-4 grid gap-3">{group.links.map((link) => <a href="#" key={link} className="text-sm text-zinc-600 transition hover:text-violet-300">{link}</a>)}</div></div>)}
+            {[{ title: "Store", links: ["All games", "Deals", "Track order"] }, { title: "Help", links: ["Support", "Refund policy", "Player ID guide"] }, { title: "Company", links: ["About", "Terms", "Privacy"] }].map((group) => <div key={group.title}><p className="text-xs font-black uppercase tracking-[.17em] text-zinc-300">{group.title}</p><div className="mt-4 grid gap-3">{group.links.map((link) => <a href="#" key={link} className="text-sm text-zinc-600 transition hover:text-[#f5c542]">{link}</a>)}</div></div>)}
           </div>
-          <div className="mt-12 flex flex-col gap-3 border-t border-white/[.07] pt-6 text-[11px] text-zinc-700 sm:flex-row sm:items-center sm:justify-between"><span>© 2026 NEXORA. Frontend concept demo.</span><span>Game names belong to their respective owners. No affiliation implied.</span></div>
+          <div className="mt-12 flex flex-col gap-3 border-t border-white/[.07] pt-6 text-[11px] text-zinc-700 sm:flex-row sm:items-center sm:justify-between"><span>© 2026 Revera Store. Frontend concept demo.</span><span>Game names belong to their respective owners. No affiliation implied.</span></div>
         </div>
       </footer>
 
-      <a href="#faq" className="fixed bottom-20 right-4 z-30 grid size-12 place-items-center rounded-full border border-emerald-300/20 bg-emerald-500 text-[#04120b] shadow-[0_14px_40px_rgba(16,185,129,.3)] transition hover:scale-105 md:bottom-6" aria-label="Open support"><MessageCircle className="size-5" /></a>
+      <motion.a whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.94 }} href="#faq" className="fixed bottom-20 right-4 z-30 grid size-12 place-items-center rounded-full border border-[#f5c542]/30 bg-[#f5c542] text-[#090909] shadow-[0_14px_40px_rgba(245,197,66,.18)] md:bottom-6" aria-label="Open support"><MessageCircle className="size-5" /></motion.a>
 
       <nav className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-4 rounded-[22px] border border-white/10 bg-[#0b0e18]/95 p-2 shadow-2xl backdrop-blur-xl md:hidden">
-        {[{ icon: Home, label: "Home", action: () => window.scrollTo({ top: 0, behavior: "smooth" }) }, { icon: Gamepad2, label: "Games", action: scrollToGames }, { icon: ShoppingBag, label: "Orders", action: () => setTrackOpen(true) }, { icon: User, label: "Account", action: () => undefined }].map(({ icon: Icon, label, action }, index) => <button key={label} onClick={action} className={cn("flex flex-col items-center gap-1 rounded-xl py-2 text-[9px] font-bold", index === 0 ? "bg-violet-500/15 text-violet-300" : "text-zinc-500")}><Icon className="size-[18px]" />{label}</button>)}
+        {[{ icon: Home, label: "Home", action: () => window.scrollTo({ top: 0, behavior: "smooth" }) }, { icon: Gamepad2, label: "Games", action: scrollToGames }, { icon: ShoppingBag, label: "Orders", action: () => setTrackOpen(true) }, { icon: User, label: "Account", action: () => undefined }].map(({ icon: Icon, label, action }, index) => <motion.button whileTap={{ scale: 0.92 }} key={label} onClick={action} className={cn("flex flex-col items-center gap-1 rounded-xl py-2 text-[9px] font-bold", index === 0 ? "bg-[#f5c542]/10 text-[#f5c542]" : "text-zinc-500")}><Icon className="size-[18px]" />{label}</motion.button>)}
       </nav>
 
       <TopUpDialog game={selectedGame} onClose={() => setSelectedGame(null)} />
