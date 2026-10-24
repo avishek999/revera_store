@@ -208,7 +208,7 @@ const faq = [
   },
   {
     q: "How fast will the top-up arrive?",
-    a: "This frontend demonstrates an instant-delivery flow. In production, timing depends on the selected supplier API and the package availability returned at checkout.",
+    a: "Delivery timing depends on the selected package, supplier availability, and the live status shown during checkout.",
   },
   {
     q: "What happens if I enter the wrong Player ID?",
@@ -338,7 +338,7 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
                     <p className="text-xs font-black uppercase tracking-[.18em] text-[#f5c542]">01 · Account</p>
                     <h3 className="mt-1 text-lg font-black text-white">Enter player details</h3>
                   </div>
-                  <Badge variant="neutral">Demo mode</Badge>
+                  <Badge variant="neutral">Secure flow</Badge>
                 </div>
                 <div className={cn("mt-4 grid gap-3", game.fields.length > 1 && "sm:grid-cols-2")}>
                   {game.fields.map((field, index) => (
@@ -390,7 +390,7 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                 <Badge variant="success"><ShieldCheck className="size-3" /> Secure checkout</Badge>
                 <h3 className="mt-4 text-2xl font-black text-white">Ready to power up.</h3>
-                <p className="mt-2 text-sm leading-6 text-zinc-400">This is the frontend demo. Production will open the approved hosted payment gateway here.</p>
+                <p className="mt-2 text-sm leading-6 text-zinc-400">Complete payment through our secure hosted checkout. Your order begins processing after payment confirmation.</p>
                 <div className="mt-6 space-y-3 rounded-2xl border border-white/[.08] bg-black/20 p-4">
                   <div className="flex justify-between text-sm"><span className="text-zinc-500">Game</span><span className="font-bold text-white">{game.name}</span></div>
                   <div className="flex justify-between text-sm"><span className="text-zinc-500">Player</span><span className="font-bold text-white">ReveraPlayer_24</span></div>
@@ -398,7 +398,7 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
                   <div className="h-px bg-white/[.08]" />
                   <div className="flex items-end justify-between"><span className="text-sm text-zinc-400">Total</span><span className="text-3xl font-black text-white">₹{pkg.price}</span></div>
                 </div>
-                <Button size="lg" className="mt-5 w-full" onClick={() => setShowCheckout(false)}><WalletCards className="size-4" /> Pay with UPI · Demo</Button>
+                <Button size="lg" className="mt-5 w-full" onClick={() => setShowCheckout(false)}><WalletCards className="size-4" /> Pay with UPI</Button>
                 <button onClick={() => setShowCheckout(false)} className="mt-3 w-full text-center text-xs font-bold text-zinc-500 hover:text-white">Back to packages</button>
               </motion.div>
             )}
@@ -416,9 +416,9 @@ function TrackOrderDialog({ open, onClose }: { open: boolean; onClose: () => voi
       <DialogContent className="max-w-md p-6 sm:p-8">
         <Badge variant="neutral">Order center</Badge>
         <DialogTitle className="mt-4 text-2xl">Track your top-up</DialogTitle>
-        <DialogDescription className="mt-2">Enter a demo order ID to preview the fulfillment timeline.</DialogDescription>
+        <DialogDescription className="mt-2">Enter your order ID to follow the fulfillment timeline.</DialogDescription>
         <div className="mt-5 flex gap-2">
-          <Input defaultValue="NX-240184" aria-label="Order ID" />
+          <Input defaultValue="RS-240184" aria-label="Order ID" />
           <Button onClick={() => setTracked(true)}>Track</Button>
         </div>
         {tracked && (
@@ -455,7 +455,7 @@ export function Storefront() {
   return (
     <main className="overflow-hidden pb-20 md:pb-0">
       <div className="border-b border-[#f5c542]/15 bg-[#15130c] px-4 py-2 text-center text-[10px] font-extrabold uppercase tracking-[.16em] text-[#f5c542] sm:text-[11px]">
-        <span className="mr-2 inline-block size-1.5 animate-pulse rounded-full bg-[#d7d8dc]" /> Client preview · Payments are simulated in this demo
+        <span className="mr-2 inline-block size-1.5 animate-pulse rounded-full bg-[#d7d8dc]" /> Fast delivery · Secure checkout · Human support
       </div>
 
       <header className="sticky top-0 z-40 border-b border-white/[.07] bg-[#070912]/85 backdrop-blur-xl">
@@ -538,7 +538,7 @@ export function Storefront() {
 
       <section id="games" className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
-          <SectionHeading kicker="Game vault" title="Every world. One checkout." copy="Browse the launch catalog and preview a full top-up journey for any game." />
+          <SectionHeading kicker="Game vault" title="Every world. One checkout." copy="Browse the catalog and complete a smooth top-up journey for any supported game." />
           <label className="relative block w-full lg:w-80">
             <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-zinc-500" />
             <Input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search games..." className="pl-11" />
@@ -566,7 +566,7 @@ export function Storefront() {
           <div className="mt-9 grid gap-4 lg:grid-cols-[1.25fr_.75fr]">
             <motion.button whileHover={{ y: -5 }} onClick={() => setSelectedGame(games[0])} className="group relative min-h-80 overflow-hidden rounded-[28px] border border-[#f5c542]/20 bg-[#17140b] p-7 text-left sm:p-9">
               <motion.div animate={{ rotate: [0, 7, 0], y: [0, -8, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-16 -top-16 size-80 rounded-full border border-[#f5c542]/15 bg-[#f5c542]/[.05]" />
-              <div className="relative max-w-md"><Badge variant="warning"><Sparkles className="size-3" /> Weekend drop</Badge><h3 className="mt-5 text-3xl font-black tracking-[-.04em] text-white sm:text-4xl">Double the energy.<br />Keep the momentum.</h3><p className="mt-4 text-sm leading-6 text-zinc-400">Preview a high-converting promotional block for passes, first-recharge packs, and seasonal bundles.</p><div className="mt-8 inline-flex items-center gap-2 text-sm font-black text-[#f5c542]">Unlock deal <ArrowRight className="size-4 transition group-hover:translate-x-1" /></div></div>
+              <div className="relative max-w-md"><Badge variant="warning"><Sparkles className="size-3" /> Weekend drop</Badge><h3 className="mt-5 text-3xl font-black tracking-[-.04em] text-white sm:text-4xl">Double the energy.<br />Keep the momentum.</h3><p className="mt-4 text-sm leading-6 text-zinc-400">Explore special passes, first-recharge packs, and limited seasonal bundles at competitive prices.</p><div className="mt-8 inline-flex items-center gap-2 text-sm font-black text-[#f5c542]">Unlock deal <ArrowRight className="size-4 transition group-hover:translate-x-1" /></div></div>
               <Gem className="absolute -bottom-8 right-2 size-64 rotate-[-12deg] text-[#f5c542]/[.12] sm:right-10" strokeWidth={1} />
             </motion.button>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
@@ -622,10 +622,10 @@ export function Storefront() {
       <footer className="border-t border-white/[.07] bg-[#05060b]">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
-            <div><Logo /><p className="mt-5 max-w-xs text-sm leading-6 text-zinc-500">A client-ready concept for a modern multi-game top-up platform. Demo content only.</p></div>
+            <div><Logo /><p className="mt-5 max-w-xs text-sm leading-6 text-zinc-500">A fast, secure destination for game top-ups, passes, vouchers, and account marketplace services.</p></div>
             {[{ title: "Store", links: ["All games", "Deals", "Track order"] }, { title: "Help", links: ["Support", "Refund policy", "Player ID guide"] }, { title: "Company", links: ["About", "Terms", "Privacy"] }].map((group) => <div key={group.title}><p className="text-xs font-black uppercase tracking-[.17em] text-zinc-300">{group.title}</p><div className="mt-4 grid gap-3">{group.links.map((link) => <a href="#" key={link} className="text-sm text-zinc-600 transition hover:text-[#f5c542]">{link}</a>)}</div></div>)}
           </div>
-          <div className="mt-12 flex flex-col gap-3 border-t border-white/[.07] pt-6 text-[11px] text-zinc-700 sm:flex-row sm:items-center sm:justify-between"><span>© 2026 Revera Store. Frontend concept demo.</span><span>Game names belong to their respective owners. No affiliation implied.</span></div>
+          <div className="mt-12 flex flex-col gap-3 border-t border-white/[.07] pt-6 text-[11px] text-zinc-700 sm:flex-row sm:items-center sm:justify-between"><span>© 2026 Revera Store. All rights reserved.</span><span>Game names belong to their respective owners. No affiliation implied.</span></div>
         </div>
       </footer>
 

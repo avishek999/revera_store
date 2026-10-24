@@ -33,6 +33,17 @@ select {
   -webkit-tap-highlight-color: transparent;
 }
 
+button,
+a[href],
+[role="button"] {
+  cursor: pointer;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
 ::selection {
   color: white;
   background: rgba(124, 58, 237, 0.75);
