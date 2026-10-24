@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nexora-game-store-demo.freshloon258.chatgpt.site"),
+  metadataBase: new URL("https://revera-store-demo.freshloon258.chatgpt.site"),
   title: "Revera Store — Game Top-Ups, Instantly",
   description: "A premium multi-game top-up and account marketplace demo.",
   openGraph: {
