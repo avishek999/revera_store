@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import {
   ArrowRight,
   BadgeCheck,
@@ -596,6 +597,9 @@ export function Storefront() {
   const [authOpen, setAuthOpen] = React.useState(false);
   const [authMode, setAuthMode] = React.useState<"sign-in" | "sign-up">("sign-in");
   const [demoUser, setDemoUser] = React.useState<DemoUser | null>(null);
+  const [heroImageLoaded, setHeroImageLoaded] = React.useState(false);
+  const [heroIntroComplete, setHeroIntroComplete] = React.useState(false);
+  const heroReady = heroImageLoaded && heroIntroComplete;
 
   const modalOpen = Boolean(selectedGame) || trackOpen || authOpen;
 
@@ -702,13 +706,30 @@ export function Storefront() {
       </header>
 
       <section className="relative isolate min-h-[690px] border-b border-white/[.06] bg-[#060606] noise lg:min-h-[750px]">
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.32 }} transition={{ duration: 1.1 }} className="absolute inset-0 bg-cover bg-[62%_center] grayscale lg:bg-center" style={{ backgroundImage: "url('/images/revera-hero.png')" }} />
-        <div className="absolute inset-0 bg-black/45" />
-        <div className="relative mx-auto grid min-h-[690px] max-w-7xl items-center px-4 py-20 sm:px-6 lg:min-h-[750px] lg:grid-cols-[1.05fr_.95fr] lg:px-8">
+        <div className="absolute inset-0 overflow-hidden bg-[#08090d]">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: heroReady ? 0.32 : 0 }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }} className="absolute inset-0 grayscale">
+            <Image src="/images/revera-hero.webp" alt="" fill priority sizes="100vw" onLoad={() => setHeroImageLoaded(true)} onError={() => setHeroImageLoaded(true)} className="object-cover object-[62%_center] lg:object-center" />
+          </motion.div>
+          <AnimatePresence>
+            {!heroReady && (
+              <motion.div key="hero-loader" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .35 }} className="absolute inset-0 z-10 grid place-items-center bg-[#08090d]/55">
+                <div className="flex items-center gap-3 rounded-2xl border border-white/[.08] bg-[#0b0d12]/90 px-4 py-3 shadow-xl">
+                  <div className="relative grid size-9 shrink-0 place-items-center rounded-full border border-[#f5c542]/20 bg-[#f5c542]/[.06]">
+                    <motion.span aria-hidden="true" className="absolute inset-1 rounded-full border-2 border-transparent border-t-[#f5c542]" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
+                    <Gamepad2 className="size-4 text-[#f5c542]" />
+                  </div>
+                  <div><p className="text-xs font-bold text-white">Preparing your arena</p><p className="mt-1 text-[10px] text-zinc-500">Loading Revera Store visuals</p></div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+        <div className="pointer-events-none absolute inset-0 bg-black/45" />
+        <div className="relative z-20 mx-auto grid min-h-[690px] max-w-7xl items-center px-4 py-20 sm:px-6 lg:min-h-[750px] lg:grid-cols-[1.05fr_.95fr] lg:px-8">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65 }} className="max-w-2xl">
             <Badge><Sparkles className="size-3" /> Revera Store · Game marketplace</Badge>
             <h1 className="mt-6 text-balance text-5xl font-bold leading-[.94] tracking-[-.055em] text-white sm:text-6xl lg:text-[78px]">
-              Power up.<br /><motion.span initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.32, duration: 0.5 }} className="inline-block text-[#f5c542]">Skip the wait.</motion.span>
+              Power up.<br /><motion.span initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.32, duration: 0.5 }} onAnimationComplete={() => setHeroIntroComplete(true)} className="inline-block text-[#f5c542]">Skip the wait.</motion.span>
             </h1>
             <p className="mt-6 max-w-xl text-base leading-7 text-zinc-300 sm:text-lg">One fast, secure destination for game credits, passes, and vouchers across the titles you play most.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
