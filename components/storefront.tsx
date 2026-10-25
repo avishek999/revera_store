@@ -330,12 +330,21 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
   const [verified, setVerified] = React.useState(false);
   const [verifying, setVerifying] = React.useState(false);
   const [showCheckout, setShowCheckout] = React.useState(false);
+  const [paymentSuccess, setPaymentSuccess] = React.useState(false);
+  const [isPaying, setIsPaying] = React.useState(false);
+  const paymentTimer = React.useRef<number | null>(null);
 
   React.useEffect(() => {
+    if (paymentTimer.current) window.clearTimeout(paymentTimer.current);
     setSelectedPackage(1);
     setVerified(false);
     setVerifying(false);
     setShowCheckout(false);
+    setPaymentSuccess(false);
+    setIsPaying(false);
+    return () => {
+      if (paymentTimer.current) window.clearTimeout(paymentTimer.current);
+    };
   }, [game?.id]);
 
   if (!game) return null;
@@ -350,24 +359,67 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
   };
 
   const pkg = packageSets[selectedPackage];
+  const completeDemoPayment = () => {
+    setIsPaying(true);
+    paymentTimer.current = window.setTimeout(() => {
+      setIsPaying(false);
+      setPaymentSuccess(true);
+      paymentTimer.current = null;
+    }, 1500);
+  };
 
   return (
     <Dialog open={Boolean(game)} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent>
-        <div className="grid md:grid-cols-[.85fr_1.35fr]">
-          <div className="grid min-h-24 grid-cols-[88px_1fr] overflow-hidden rounded-t-[24px] bg-[#0d0d0d] sm:rounded-t-[28px] md:flex md:min-h-full md:flex-col md:rounded-l-[28px] md:rounded-tr-none">
-            <div className="relative h-24 min-h-0 overflow-hidden md:h-auto md:min-h-[390px] md:flex-1">
+      <DialogContent className="w-[calc(100%-1rem)] max-h-[calc(100dvh-1rem)] rounded-[22px] p-0 sm:w-[calc(100%-2rem)] sm:rounded-[28px]">
+        <DialogTitle className="sr-only">Top up {game.name}</DialogTitle>
+        <DialogDescription className="sr-only">Enter your player details and choose a {game.currency} package.</DialogDescription>
+        <div className="grid max-h-[calc(100dvh-1rem)] grid-rows-[auto_minmax(0,1fr)] md:grid-cols-[.85fr_1.35fr] md:grid-rows-1">
+          <div className="relative overflow-hidden rounded-t-[22px] bg-[#0d0d0d] sm:rounded-t-[28px] md:flex md:min-h-full md:flex-col md:rounded-l-[28px] md:rounded-tr-none">
+            <div className="relative h-[112px] min-h-0 overflow-hidden sm:h-[128px] md:h-auto md:min-h-[390px] md:flex-1">
               <GameArtwork game={game} large />
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-[#0d0d0d]/85 px-3 py-2.5 md:hidden">
+                <div className="flex min-w-0 items-center gap-2.5">
+                  <img src={game.iconImage} alt="" className="size-10 shrink-0 rounded-xl border border-white/10 object-cover" />
+                  <div className="min-w-0">
+                    <h2 className="truncate text-base font-bold leading-tight text-white">{game.name}</h2>
+                    <p className="mt-1 truncate text-[11px] text-zinc-300">Top up {game.currency}</p>
+                  </div>
+                </div>
+                <Badge variant="success" className="shrink-0"><span className="size-1.5 rounded-full bg-[#f5c542]" /> Available</Badge>
+              </div>
             </div>
-            <div className="relative z-10 flex min-w-0 flex-col justify-center border-t border-white/10 bg-[#0d0d0d] p-2.5 md:p-6">
+            <div className="relative z-10 hidden min-w-0 flex-col justify-center border-t border-white/10 bg-[#0d0d0d] p-2.5 md:flex md:p-6">
               <Badge variant="success" className="w-fit"><span className="size-1.5 rounded-full bg-[#f5c542]" /> Available</Badge>
-              <DialogTitle className="mt-1.5 break-words text-base leading-tight sm:mt-3 sm:text-2xl">{game.name}</DialogTitle>
-              <DialogDescription className="mt-1 text-xs text-zinc-400 sm:mt-2 sm:text-sm">Top up {game.currency} securely.</DialogDescription>
+              <div className="mt-3 flex items-center gap-3">
+                <img src={game.iconImage} alt="" className="size-11 shrink-0 rounded-xl border border-white/10 object-cover" />
+                <div className="min-w-0">
+                  <h2 className="break-words text-base font-bold leading-tight text-white sm:text-2xl">{game.name}</h2>
+                  <p className="mt-1 text-xs text-zinc-400 sm:text-sm">Top up {game.currency} securely.</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="p-3 sm:p-7">
-            {!showCheckout ? (
+          <div className="min-h-0 p-3 sm:p-5 md:p-7">
+            {paymentSuccess ? (
+              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .32 }} className="flex min-h-[330px] flex-col justify-center text-center sm:min-h-[390px]">
+                <div className="relative mx-auto grid size-20 place-items-center">
+                  <motion.span aria-hidden="true" className="absolute inset-0 rounded-full border border-[#f5c542]/35" initial={{ opacity: 0, scale: .6 }} animate={{ opacity: [0, .65, 0], scale: [0.7, 1.15, 1.3] }} transition={{ duration: .9, ease: "easeOut" }} />
+                  <motion.span aria-hidden="true" className="absolute inset-2 rounded-full border border-[#f5c542]/20" initial={{ opacity: 0, scale: .7 }} animate={{ opacity: [0, .6, 0], scale: [0.75, 1.15, 1.28] }} transition={{ duration: 1, delay: .1, ease: "easeOut" }} />
+                  <motion.span initial={{ scale: .5, opacity: 0, rotate: -14 }} animate={{ scale: 1, opacity: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 260, damping: 17, delay: .08 }} className="grid size-16 place-items-center rounded-full border border-[#f5c542]/25 bg-[#f5c542]/10 text-[#f5c542]"><BadgeCheck className="size-8" /></motion.span>
+                </div>
+                <Badge variant="success" className="mx-auto mt-5">Demo payment successful</Badge>
+                <h3 className="mt-4 text-2xl font-bold text-white">You’re powered up.</h3>
+                <p className="mt-2 text-sm leading-6 text-zinc-400">Your {pkg.amount} {game.currency} top-up is shown as confirmed in this preview.</p>
+                <div className="mx-auto mt-5 w-full max-w-sm rounded-2xl border border-white/[.08] bg-black/20 p-4 text-left">
+                  <div className="flex justify-between text-sm"><span className="text-zinc-500">Demo order</span><span className="font-bold text-white">RS-DEMO-240184</span></div>
+                  <div className="mt-3 flex justify-between text-sm"><span className="text-zinc-500">Amount</span><span className="font-bold text-white">₹{pkg.price}</span></div>
+                  <div className="mt-3 flex items-center gap-2 border-t border-white/[.08] pt-3 text-xs text-[#f5c542]"><BadgeCheck className="size-4" /> Payment confirmed · Demo only</div>
+                </div>
+                <p className="mt-4 text-[11px] leading-5 text-zinc-600">No real payment was taken and no game credits were delivered.</p>
+                <Button size="lg" className="mx-auto mt-5 w-full max-w-sm" onClick={onClose}>Done</Button>
+              </motion.div>
+            ) : !showCheckout ? (
               <>
                 <div>
                   <div>
@@ -376,9 +428,9 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
                   </div>
                   <Badge variant="neutral" className="mt-1 text-[9px] sm:text-[10px]">Secure flow</Badge>
                 </div>
-                <div className={cn("mt-2 grid gap-2 sm:mt-4 sm:gap-3", game.fields.length > 1 && "sm:grid-cols-2")}>
+                <div className={cn("mt-2 grid gap-2 sm:mt-3 sm:gap-3", game.fields.length > 1 && "grid-cols-2")}>
                   {game.fields.map((field, index) => (
-                    <Input key={field} aria-label={field} placeholder={index === 0 ? `Enter ${field}` : field} defaultValue={index === 0 ? "123456789" : "2048"} />
+                    <Input key={field} className="h-10 px-3 text-xs sm:h-11 sm:text-sm" aria-label={field} placeholder={index === 0 ? `Enter ${field}` : field} defaultValue={index === 0 ? "123456789" : "2048"} />
                   ))}
                 </div>
                 <Button variant="secondary" className="mt-2 h-9 w-full sm:mt-3 sm:h-10" onClick={verify} disabled={verifying}>
@@ -386,32 +438,47 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
                   {verifying ? "Checking player..." : verified ? "Player verified" : "Verify player"}
                 </Button>
 
-                <div className="mt-3 sm:mt-6">
+                <div className="mt-3 sm:mt-5">
                   <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#f5c542] sm:text-xs">02 · Select package</p>
-                  <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:gap-2.5">
+                  <div className="mt-2 grid grid-cols-3 gap-1.5 sm:mt-3 sm:grid-cols-2 sm:gap-2.5">
                     {packageSets.map((item, index) => (
                       <button
                         key={item.amount}
                         onClick={() => setSelectedPackage(index)}
                         className={cn(
-                          "relative rounded-xl border p-2 text-left transition outline-none focus-visible:ring-2 focus-visible:ring-[#f5c542] sm:rounded-2xl sm:p-3",
+                          "relative min-h-[78px] rounded-xl border p-1.5 text-left transition outline-none focus-visible:ring-2 focus-visible:ring-[#f5c542] sm:min-h-0 sm:rounded-2xl sm:p-3",
                           selectedPackage === index ? "border-[#f5c542]/60 bg-[#f5c542]/10" : "border-white/[.08] bg-white/[.025] hover:bg-white/[.05]",
                         )}
                       >
-                        <span className={cn("text-[8px] font-bold uppercase tracking-[.1em] sm:text-[9px] sm:tracking-[.12em]", selectedPackage === index ? "text-[#f5c542]" : "text-zinc-600")}>{item.tag}</span>
-                        <p className="mt-0.5 truncate text-xs font-bold text-white sm:mt-1 sm:text-sm">{item.amount}</p>
-                        <p className="truncate text-[9px] text-zinc-500 sm:text-[10px]">{item.bonus}</p>
-                        <div className="mt-1 flex items-end gap-1.5 sm:mt-2"><span className="text-xs font-bold text-white sm:text-sm">₹{item.price}</span><span className="text-[9px] text-zinc-600 line-through sm:text-[10px]">₹{item.oldPrice}</span></div>
+                        <span className={cn("text-[7px] font-bold uppercase tracking-[.07em] sm:text-[9px] sm:tracking-[.12em]", selectedPackage === index ? "text-[#f5c542]" : "text-zinc-600")}>{item.tag}</span>
+                        <p className="mt-0.5 truncate text-[11px] font-bold text-white sm:mt-1 sm:text-sm">{item.amount}</p>
+                        <p className="truncate text-[8px] text-zinc-500 sm:text-[10px]">{item.bonus}</p>
+                        <div className="mt-1 flex items-end gap-1"><span className="text-[11px] font-bold text-white sm:text-sm">₹{item.price}</span><span className="hidden text-[9px] text-zinc-600 line-through sm:inline sm:text-[10px]">₹{item.oldPrice}</span></div>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="mt-3 flex items-center justify-between border-t border-white/[.08] pt-3 sm:mt-5 sm:pt-5">
+                <div className="mt-2.5 flex items-center justify-between border-t border-white/[.08] pt-2.5 sm:mt-5 sm:pt-5">
                   <div><p className="text-[10px] text-zinc-500 sm:text-[11px]">Total payable</p><p className="text-xl font-bold text-white sm:text-2xl">₹{pkg.price}</p></div>
-                  <Button size="lg" className="h-10 sm:h-11" onClick={() => setShowCheckout(true)} disabled={!verified}>Continue <ArrowRight className="size-4" /></Button>
+                  <Button size="lg" className="h-10 px-4 sm:h-11 sm:px-7" onClick={() => setShowCheckout(true)} disabled={!verified}>Continue <ArrowRight className="size-4" /></Button>
                 </div>
               </>
+            ) : isPaying ? (
+              <motion.div key="payment-processing" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: .24 }} className="flex min-h-[390px] flex-col justify-center">
+                <div className="mx-auto relative grid size-16 place-items-center rounded-full border border-[#f5c542]/20 bg-[#f5c542]/[.06]">
+                  <motion.span aria-hidden="true" className="absolute inset-1 rounded-full border-2 border-transparent border-t-[#f5c542]" animate={{ rotate: 360 }} transition={{ duration: .85, repeat: Infinity, ease: "linear" }} />
+                  <WalletCards className="size-6 text-[#f5c542]" />
+                </div>
+                <Badge variant="neutral" className="mx-auto mt-5">Demo checkout</Badge>
+                <h3 className="mt-4 text-center text-2xl font-bold text-white">Confirming your payment</h3>
+                <p className="mt-2 text-center text-sm text-zinc-400">Please keep this window open for a moment.</p>
+                <div className="mx-auto mt-7 w-full max-w-sm overflow-hidden rounded-full bg-white/[.08]">
+                  <motion.div className="h-1.5 rounded-full bg-[#f5c542]" initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: 1.45, ease: "easeInOut" }} />
+                </div>
+                <div className="mx-auto mt-5 flex w-full max-w-sm items-center justify-between text-[10px] font-semibold text-zinc-500"><span>Starting checkout</span><span>Confirming</span><span>Preparing receipt</span></div>
+                <p className="mt-7 text-center text-[10px] text-zinc-600">Demo only · no money will be charged</p>
+              </motion.div>
             ) : (
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                 <Badge variant="success"><ShieldCheck className="size-3" /> Secure checkout</Badge>
@@ -424,7 +491,7 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
                   <div className="h-px bg-white/[.08]" />
                   <div className="flex items-end justify-between"><span className="text-sm text-zinc-400">Total</span><span className="text-3xl font-bold text-white">₹{pkg.price}</span></div>
                 </div>
-                <Button size="lg" className="mt-5 w-full" onClick={() => setShowCheckout(false)}><WalletCards className="size-4" /> Pay with UPI</Button>
+                <Button size="lg" className="mt-5 w-full" onClick={completeDemoPayment}><WalletCards className="size-4" /> Complete demo payment</Button>
                 <button onClick={() => setShowCheckout(false)} className="mt-3 w-full text-center text-xs font-bold text-zinc-500 hover:text-white">Back to packages</button>
               </motion.div>
             )}
@@ -783,8 +850,13 @@ export function Storefront() {
 
       <motion.a whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.94 }} href="#faq" className="fixed bottom-20 right-4 z-30 grid size-12 place-items-center rounded-full border border-[#f5c542]/30 bg-[#f5c542] text-[#090909] shadow-[0_14px_40px_rgba(245,197,66,.18)] xl:bottom-6" aria-label="Open support"><MessageCircle className="size-5" /></motion.a>
 
-      <nav className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-3 rounded-[22px] border border-white/10 bg-[#0b0e18]/95 p-2 shadow-2xl backdrop-blur-xl xl:hidden">
-        {[{ icon: Home, label: "Home", action: () => window.scrollTo({ top: 0, behavior: "smooth" }) }, { icon: Gamepad2, label: "Games", action: scrollToGames }, { icon: ShoppingBag, label: "Orders", action: () => setTrackOpen(true) }].map(({ icon: Icon, label, action }, index) => <motion.button whileTap={{ scale: 0.92 }} key={label} onClick={action} className={cn("flex flex-col items-center gap-1 rounded-xl py-2 text-[9px] font-bold", index === 0 ? "bg-[#f5c542]/10 text-[#f5c542]" : "text-zinc-500")}><Icon className="size-[18px]" />{label}</motion.button>)}
+      <nav aria-label="Quick navigation" className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-4 rounded-[22px] border border-white/10 bg-[#0b0e18]/95 p-2 shadow-2xl backdrop-blur-xl xl:hidden">
+        {[
+          { icon: Home, label: "Home", action: () => window.scrollTo({ top: 0, behavior: "smooth" }) },
+          { icon: Gamepad2, label: "Games", action: scrollToGames },
+          { icon: ShoppingBag, label: "Orders", action: () => setTrackOpen(true) },
+          { icon: User, label: "Account", action: () => demoUser ? window.location.assign("/account") : openAuth("sign-in") },
+        ].map(({ icon: Icon, label, action }, index) => <motion.button whileTap={{ scale: 0.92 }} key={label} onClick={action} className={cn("flex flex-col items-center gap-1 rounded-xl py-2 text-[9px] font-bold", index === 0 ? "bg-[#f5c542]/10 text-[#f5c542]" : "text-zinc-500")}><Icon className="size-[18px]" />{label}</motion.button>)}
       </nav>
 
       <TopUpDialog game={selectedGame} onClose={() => setSelectedGame(null)} />
