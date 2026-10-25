@@ -51,7 +51,7 @@ export function ComingSoon() {
         src="/images/revera-hero.png"
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 -z-20 size-full object-cover object-center opacity-25 grayscale"
+        className="absolute inset-x-0 top-0 -z-20 h-screen w-full object-cover object-center opacity-25 grayscale"
       />
       <div className="absolute inset-0 -z-10 bg-[#070707]/75" />
       <div className="pointer-events-none absolute -right-40 top-1/4 -z-10 size-[34rem] rounded-full border border-[#f5c542]/10" />
