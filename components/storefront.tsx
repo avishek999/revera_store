@@ -47,6 +47,10 @@ type Game = {
   fields: string[];
 };
 
+type DemoUser = { name: string; email: string };
+
+const demoUserKey = "revera-demo-user";
+
 const games: Game[] = [
   {
     id: "mobile-legends",
@@ -459,13 +463,99 @@ function TrackOrderDialog({ open, onClose }: { open: boolean; onClose: () => voi
   );
 }
 
+function AuthDialog({
+  open,
+  mode,
+  onModeChange,
+  onClose,
+  onContinue,
+}: {
+  open: boolean;
+  mode: "sign-in" | "sign-up";
+  onModeChange: (mode: "sign-in" | "sign-up") => void;
+  onClose: () => void;
+  onContinue: (user: DemoUser) => void;
+}) {
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const submit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onContinue({
+      name: mode === "sign-up" && name.trim() ? name.trim() : email.split("@")[0] || "Revera Player",
+      email: email.trim() || "player@reverastore.demo",
+    });
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={(value) => !value && onClose()}>
+      <DialogContent className="max-w-md p-5 sm:p-7">
+        <Badge variant="neutral">Demo account</Badge>
+        <DialogTitle className="mt-4 text-2xl">{mode === "sign-up" ? "Create your player account" : "Welcome back, player"}</DialogTitle>
+        <DialogDescription className="mt-2">Preview the Revera account experience. This demo does not create a real account.</DialogDescription>
+
+        <Button variant="secondary" className="mt-5 w-full" onClick={() => onContinue({ name: "Revera Demo Player", email: "player@gmail.com" })}>
+          <span aria-hidden="true" className="font-extrabold text-[#4285f4]">G</span> Continue with Google
+        </Button>
+        <p className="mt-2 text-center text-[10px] text-zinc-600">Google authentication is simulated for this demo.</p>
+
+        <div className="my-5 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[.15em] text-zinc-600">
+          <span className="h-px flex-1 bg-white/[.08]" /> or continue with email <span className="h-px flex-1 bg-white/[.08]" />
+        </div>
+
+        <form onSubmit={submit} className="space-y-3">
+          {mode === "sign-up" && <Input aria-label="Your name" placeholder="Your name" autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} required />}
+          <Input aria-label="Email address" type="email" placeholder="Email address" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
+          <Input aria-label="Password" type="password" placeholder="Password" autoComplete={mode === "sign-up" ? "new-password" : "current-password"} value={password} onChange={(event) => setPassword(event.target.value)} minLength={4} required />
+          <Button type="submit" className="w-full">{mode === "sign-up" ? "Create demo account" : "Sign in to demo"}</Button>
+        </form>
+        <p className="mt-4 text-center text-xs text-zinc-500">
+          {mode === "sign-up" ? "Already have an account?" : "New to Revera?"}{" "}
+          <button type="button" onClick={() => onModeChange(mode === "sign-up" ? "sign-in" : "sign-up")} className="font-bold text-[#f5c542] hover:text-[#ffe080]">
+            {mode === "sign-up" ? "Sign in" : "Create an account"}
+          </button>
+        </p>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export function Storefront() {
   const [activeCategory, setActiveCategory] = React.useState<(typeof categories)[number]>("All");
   const [search, setSearch] = React.useState("");
   const [selectedGame, setSelectedGame] = React.useState<Game | null>(null);
   const [trackOpen, setTrackOpen] = React.useState(false);
+  const [authOpen, setAuthOpen] = React.useState(false);
+  const [authMode, setAuthMode] = React.useState<"sign-in" | "sign-up">("sign-in");
+  const [demoUser, setDemoUser] = React.useState<DemoUser | null>(null);
 
-  const modalOpen = Boolean(selectedGame) || trackOpen;
+  const modalOpen = Boolean(selectedGame) || trackOpen || authOpen;
+
+  React.useEffect(() => {
+    try {
+      const storedUser = window.localStorage.getItem(demoUserKey);
+      if (storedUser) setDemoUser(JSON.parse(storedUser) as DemoUser);
+    } catch {
+      window.localStorage.removeItem(demoUserKey);
+    }
+  }, []);
+
+  const openAuth = (mode: "sign-in" | "sign-up") => {
+    setAuthMode(mode);
+    setAuthOpen(true);
+  };
+
+  const continueDemo = (user: DemoUser) => {
+    setDemoUser(user);
+    window.localStorage.setItem(demoUserKey, JSON.stringify(user));
+    setAuthOpen(false);
+  };
+
+  const signOut = () => {
+    setDemoUser(null);
+    window.localStorage.removeItem(demoUserKey);
+  };
 
   React.useEffect(() => {
     if (!modalOpen) return;
@@ -516,12 +606,30 @@ export function Storefront() {
           </nav>
           <div className="hidden items-center gap-2 xl:flex">
             <Button variant="ghost" size="sm" onClick={() => setTrackOpen(true)}><ShoppingBag className="size-4" /> Track order</Button>
-            <Button variant="secondary" size="sm"><User className="size-4" /> Sign in</Button>
-            <Button size="sm"><User className="size-4" /> Sign up</Button>
+            {demoUser ? (
+              <>
+                <Button asChild variant="secondary" size="sm"><a href="/account"><User className="size-4" /> My account</a></Button>
+                <Button variant="ghost" size="sm" onClick={signOut}>Sign out</Button>
+              </>
+            ) : (
+              <>
+                <Button variant="secondary" size="sm" onClick={() => openAuth("sign-in")}><User className="size-4" /> Sign in</Button>
+                <Button size="sm" onClick={() => openAuth("sign-up")}><User className="size-4" /> Sign up</Button>
+              </>
+            )}
           </div>
           <div className="flex items-center gap-1.5 xl:hidden">
-            <Button variant="secondary" size="sm" className="h-9 px-2.5 text-[11px]">Sign in</Button>
-            <Button size="sm" className="h-9 px-2.5 text-[11px]">Sign up</Button>
+            {demoUser ? (
+              <>
+                <Button asChild variant="secondary" size="sm" className="h-9 px-2.5 text-[11px]"><a href="/account">Account</a></Button>
+                <Button variant="ghost" size="sm" className="h-9 px-2 text-[11px]" onClick={signOut}>Sign out</Button>
+              </>
+            ) : (
+              <>
+                <Button variant="secondary" size="sm" className="h-9 px-2.5 text-[11px]" onClick={() => openAuth("sign-in")}>Sign in</Button>
+                <Button size="sm" className="h-9 px-2.5 text-[11px]" onClick={() => openAuth("sign-up")}>Sign up</Button>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -681,6 +789,7 @@ export function Storefront() {
 
       <TopUpDialog game={selectedGame} onClose={() => setSelectedGame(null)} />
       <TrackOrderDialog open={trackOpen} onClose={() => setTrackOpen(false)} />
+      <AuthDialog open={authOpen} mode={authMode} onModeChange={setAuthMode} onClose={() => setAuthOpen(false)} onContinue={continueDemo} />
     </main>
   );
 }
