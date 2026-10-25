@@ -3,11 +3,23 @@
 import { motion } from "motion/react";
 import { ArrowDownRight, ArrowRight, ArrowUpRight, Camera, Gamepad2, MessageCircle, ShieldCheck, Zap } from "lucide-react";
 
-const games = [
+const featuredGames = [
   { name: "Mobile Legends", image: "/game_icons/mb_icon.jpeg" },
   { name: "BGMI", image: "/game_icons/bgmi_icon.jpeg" },
   { name: "Free Fire", image: "/game_icons/free_fire.jpeg" },
   { name: "Genshin Impact", image: "/game_icons/gensin_impact.jpeg" },
+];
+
+const launchGames = [
+  ...featuredGames,
+  { name: "PUBG Mobile", image: "/game_icons/pubg_mobile.webp" },
+  { name: "Valorant", image: "/game_icons/valo_icon.jpeg" },
+  { name: "Honkai: Star Rail", image: "/game_icons/honkai_icon.jpeg" },
+  { name: "Wuthering Waves", image: "/game_icons/wuthring_wave_icon.png" },
+  { name: "Call of Duty: Mobile", image: "/game_icons/codm_icon.jpeg" },
+  { name: "Honor of Kings", image: "/game_icons/hok_icon.png" },
+  { name: "Clash of Clans", image: "/game_icons/coc_icon.png" },
+  { name: "Zenless Zone Zero", image: "/game_icons/zenless_zero_icon.jpeg" },
 ];
 
 const whatsappHref = "https://wa.me/919439039305?text=Hi%20Revera%20Store!%20Please%20notify%20me%20when%20you%20launch.";
@@ -34,9 +46,12 @@ export function ComingSoon() {
             </span>
             <span className="text-sm font-bold tracking-[.12em]">REVERA <span className="text-[#f5c542]">STORE</span></span>
           </a>
-          <a href="/" className="hidden items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs font-bold text-zinc-300 transition hover:border-white/25 hover:text-white sm:flex">
-            Explore store <ArrowUpRight className="size-3.5" />
-          </a>
+          <nav className="hidden items-center gap-2 sm:flex">
+            <a href="#games" className="rounded-full px-4 py-2 text-xs font-bold text-zinc-400 transition hover:text-white">Game lineup</a>
+            <a href="/" className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs font-bold text-zinc-300 transition hover:border-white/25 hover:text-white">
+              Explore store <ArrowUpRight className="size-3.5" />
+            </a>
+          </nav>
         </header>
 
         <section className="grid flex-1 items-center gap-14 py-16 lg:grid-cols-[1.05fr_.95fr] lg:gap-10 lg:py-20">
@@ -106,7 +121,7 @@ export function ComingSoon() {
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-3">
-                {games.map((game, index) => (
+                {featuredGames.map((game, index) => (
                   <motion.div
                     key={game.name}
                     initial={{ opacity: 0, y: 12 }}
@@ -136,9 +151,40 @@ export function ComingSoon() {
           </motion.div>
         </section>
 
+        <section id="games" className="border-t border-white/[.08] py-12 sm:py-16">
+          <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#f5c542]">The lineup</p>
+              <h2 className="mt-2 text-3xl font-bold tracking-[-.04em] text-white sm:text-4xl">Games on the horizon.</h2>
+              <p className="mt-3 max-w-xl text-sm leading-6 text-zinc-400">A growing collection of the games you play, ready for one simple top-up destination.</p>
+            </div>
+            <a href="/" className="inline-flex w-fit items-center gap-2 rounded-lg border border-white/10 px-4 py-2.5 text-xs font-bold text-zinc-300 transition hover:border-[#f5c542]/35 hover:text-white">
+              Explore the store <ArrowUpRight className="size-3.5" />
+            </a>
+          </div>
+          <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+            {launchGames.map((game, index) => (
+              <motion.div
+                key={game.name}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.18 }}
+                transition={{ duration: 0.38, delay: (index % 6) * 0.045, ease: [0.16, 1, 0.3, 1] }}
+                className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/[.08] bg-white/[.025] p-3 transition hover:border-[#f5c542]/25 hover:bg-white/[.045] sm:p-4"
+              >
+                <img src={game.image} alt="" className="size-11 shrink-0 rounded-xl object-cover" />
+                <p className="min-w-0 text-xs font-bold leading-5 text-zinc-200 sm:text-sm">{game.name}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
         <footer className="flex flex-col gap-3 border-t border-white/[.08] py-5 text-[11px] text-zinc-600 sm:flex-row sm:items-center sm:justify-between">
           <span>© 2026 Revera Store. All rights reserved.</span>
-          <span>Game names belong to their respective owners.</span>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <span>Game names belong to their respective owners.</span>
+            <a href="/" className="font-bold text-zinc-400 transition hover:text-white">Back to main store</a>
+          </div>
         </footer>
       </div>
     </main>
