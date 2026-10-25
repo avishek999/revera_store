@@ -11,7 +11,6 @@ import {
   Gamepad2,
   Headphones,
   Home,
-  Menu,
   MessageCircle,
   Search,
   ShieldCheck,
@@ -23,7 +22,6 @@ import {
   User,
   WalletCards,
   WandSparkles,
-  X,
   Zap,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -261,17 +259,23 @@ function Logo({ compact = false }: { compact?: boolean }) {
 
 function SectionHeading({ kicker, title, copy }: { kicker: string; title: string; copy?: string }) {
   return (
-    <div className="max-w-2xl">
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.35 }}
+      transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+      className="max-w-2xl"
+    >
       <p className="section-kicker">{kicker}</p>
       <h2 className="mt-3 text-balance text-3xl font-bold tracking-[-.035em] text-white sm:text-4xl lg:text-5xl">{title}</h2>
       {copy && <p className="mt-4 max-w-xl text-sm leading-7 text-zinc-400 sm:text-base">{copy}</p>}
-    </div>
+    </motion.div>
   );
 }
 
 function GameArtwork({ game, large = false }: { game: Game; large?: boolean }) {
   return (
-    <div className={cn("relative overflow-hidden bg-[#111111]", large ? "h-full min-h-[300px] md:min-h-[390px]" : "aspect-square") }>
+    <div className={cn("relative overflow-hidden bg-[#111111]", large ? "h-full min-h-[96px] md:min-h-[390px]" : "aspect-square") }>
       <motion.img
         src={large ? game.sideWallpaper : game.iconImage}
         alt={`${game.name} ${large ? "wallpaper" : "icon"}`}
@@ -286,14 +290,15 @@ function GameArtwork({ game, large = false }: { game: Game; large?: boolean }) {
   );
 }
 
-function GameCard({ game, onSelect }: { game: Game; onSelect: (game: Game) => void }) {
+function GameCard({ game, onSelect, index }: { game: Game; onSelect: (game: Game) => void; index: number }) {
   return (
     <motion.button
       layout
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -6 }}
-      transition={{ duration: 0.25 }}
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.12 }}
+      whileHover={{ y: -6, transition: { duration: 0.18, ease: "easeOut" } }}
+      transition={{ duration: 0.46, delay: Math.min(index, 5) * 0.035, ease: [0.16, 1, 0.3, 1] }}
       onClick={() => onSelect(game)}
       className="glow-border group relative overflow-hidden rounded-[22px] border border-white/[.08] bg-[#111111] text-left shadow-[0_18px_45px_rgba(0,0,0,.24)] outline-none focus-visible:ring-2 focus-visible:ring-[#f5c542]"
     >
@@ -346,71 +351,61 @@ function TopUpDialog({ game, onClose }: { game: Game | null; onClose: () => void
     <Dialog open={Boolean(game)} onOpenChange={(open) => !open && onClose()}>
       <DialogContent>
         <div className="grid md:grid-cols-[.85fr_1.35fr]">
-          <div className="flex min-h-52 flex-col overflow-hidden rounded-t-[28px] bg-[#0d0d0d] md:min-h-full md:rounded-l-[28px] md:rounded-tr-none">
-            <div className="relative min-h-[300px] flex-1 overflow-hidden md:min-h-[390px]">
+          <div className="grid min-h-24 grid-cols-[88px_1fr] overflow-hidden rounded-t-[24px] bg-[#0d0d0d] sm:rounded-t-[28px] md:flex md:min-h-full md:flex-col md:rounded-l-[28px] md:rounded-tr-none">
+            <div className="relative h-24 min-h-0 overflow-hidden md:h-auto md:min-h-[390px] md:flex-1">
               <GameArtwork game={game} large />
             </div>
-            <div className="relative z-10 border-t border-white/10 bg-[#0d0d0d] p-5 sm:p-6">
-              <Badge variant="success"><span className="size-1.5 rounded-full bg-[#f5c542]" /> Available</Badge>
-              <DialogTitle className="mt-3 break-words text-xl leading-tight sm:text-2xl">{game.name}</DialogTitle>
-              <DialogDescription className="mt-2 text-zinc-400">Top up {game.currency} securely.</DialogDescription>
+            <div className="relative z-10 flex min-w-0 flex-col justify-center border-t border-white/10 bg-[#0d0d0d] p-2.5 md:p-6">
+              <Badge variant="success" className="w-fit"><span className="size-1.5 rounded-full bg-[#f5c542]" /> Available</Badge>
+              <DialogTitle className="mt-1.5 break-words text-base leading-tight sm:mt-3 sm:text-2xl">{game.name}</DialogTitle>
+              <DialogDescription className="mt-1 text-xs text-zinc-400 sm:mt-2 sm:text-sm">Top up {game.currency} securely.</DialogDescription>
             </div>
           </div>
 
-          <div className="p-5 sm:p-7">
+          <div className="p-3 sm:p-7">
             {!showCheckout ? (
               <>
-                <div className="flex items-center justify-between gap-3">
+                <div>
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-[.18em] text-[#f5c542]">01 · Account</p>
-                    <h3 className="mt-1 text-lg font-bold text-white">Enter player details</h3>
+                    <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#f5c542] sm:text-xs">01 · Account</p>
+                    <h3 className="mt-0.5 text-base font-bold text-white sm:mt-1 sm:text-lg">Enter player details</h3>
                   </div>
-                  <Badge variant="neutral">Secure flow</Badge>
+                  <Badge variant="neutral" className="mt-1 text-[9px] sm:text-[10px]">Secure flow</Badge>
                 </div>
-                <div className={cn("mt-4 grid gap-3", game.fields.length > 1 && "sm:grid-cols-2")}>
+                <div className={cn("mt-2 grid gap-2 sm:mt-4 sm:gap-3", game.fields.length > 1 && "sm:grid-cols-2")}>
                   {game.fields.map((field, index) => (
                     <Input key={field} aria-label={field} placeholder={index === 0 ? `Enter ${field}` : field} defaultValue={index === 0 ? "123456789" : "2048"} />
                   ))}
                 </div>
-                <Button variant="secondary" className="mt-3 w-full" onClick={verify} disabled={verifying}>
+                <Button variant="secondary" className="mt-2 h-9 w-full sm:mt-3 sm:h-10" onClick={verify} disabled={verifying}>
                   {verifying ? <span className="size-4 animate-spin rounded-full border-2 border-zinc-500 border-t-white" /> : <BadgeCheck className="size-4" />}
-                  {verifying ? "Checking player..." : "Verify player"}
+                  {verifying ? "Checking player..." : verified ? "Player verified" : "Verify player"}
                 </Button>
-                <AnimatePresence>
-                  {verified && (
-                    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
-                      <div className="mt-3 flex items-center gap-3 rounded-xl border border-[#f5c542]/25 bg-[#f5c542]/[.07] p-3">
-                        <div className="grid size-9 place-items-center rounded-full bg-[#f5c542]/15 text-[#f5c542]"><BadgeCheck className="size-5" /></div>
-                        <div><p className="text-xs text-[#d7d8dc]/70">Player found</p><p className="text-sm font-extrabold text-white">ReveraPlayer_24</p></div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
 
-                <div className="mt-6">
-                  <p className="text-xs font-bold uppercase tracking-[.18em] text-[#f5c542]">02 · Select package</p>
-                  <div className="mt-3 grid grid-cols-2 gap-2.5">
+                <div className="mt-3 sm:mt-6">
+                  <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#f5c542] sm:text-xs">02 · Select package</p>
+                  <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:gap-2.5">
                     {packageSets.map((item, index) => (
                       <button
                         key={item.amount}
                         onClick={() => setSelectedPackage(index)}
                         className={cn(
-                          "relative rounded-2xl border p-3 text-left transition outline-none focus-visible:ring-2 focus-visible:ring-[#f5c542]",
+                          "relative rounded-xl border p-2 text-left transition outline-none focus-visible:ring-2 focus-visible:ring-[#f5c542] sm:rounded-2xl sm:p-3",
                           selectedPackage === index ? "border-[#f5c542]/60 bg-[#f5c542]/10" : "border-white/[.08] bg-white/[.025] hover:bg-white/[.05]",
                         )}
                       >
-                        <span className={cn("text-[9px] font-bold uppercase tracking-[.12em]", selectedPackage === index ? "text-[#f5c542]" : "text-zinc-600")}>{item.tag}</span>
-                        <p className="mt-1 truncate text-sm font-bold text-white">{item.amount}</p>
-                        <p className="truncate text-[10px] text-zinc-500">{item.bonus}</p>
-                        <div className="mt-2 flex items-end gap-1.5"><span className="text-sm font-bold text-white">₹{item.price}</span><span className="text-[10px] text-zinc-600 line-through">₹{item.oldPrice}</span></div>
+                        <span className={cn("text-[8px] font-bold uppercase tracking-[.1em] sm:text-[9px] sm:tracking-[.12em]", selectedPackage === index ? "text-[#f5c542]" : "text-zinc-600")}>{item.tag}</span>
+                        <p className="mt-0.5 truncate text-xs font-bold text-white sm:mt-1 sm:text-sm">{item.amount}</p>
+                        <p className="truncate text-[9px] text-zinc-500 sm:text-[10px]">{item.bonus}</p>
+                        <div className="mt-1 flex items-end gap-1.5 sm:mt-2"><span className="text-xs font-bold text-white sm:text-sm">₹{item.price}</span><span className="text-[9px] text-zinc-600 line-through sm:text-[10px]">₹{item.oldPrice}</span></div>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="mt-5 flex items-center justify-between border-t border-white/[.08] pt-5">
-                  <div><p className="text-[11px] text-zinc-500">Total payable</p><p className="text-2xl font-bold text-white">₹{pkg.price}</p></div>
-                  <Button size="lg" onClick={() => setShowCheckout(true)} disabled={!verified}>Continue <ArrowRight className="size-4" /></Button>
+                <div className="mt-3 flex items-center justify-between border-t border-white/[.08] pt-3 sm:mt-5 sm:pt-5">
+                  <div><p className="text-[10px] text-zinc-500 sm:text-[11px]">Total payable</p><p className="text-xl font-bold text-white sm:text-2xl">₹{pkg.price}</p></div>
+                  <Button size="lg" className="h-10 sm:h-11" onClick={() => setShowCheckout(true)} disabled={!verified}>Continue <ArrowRight className="size-4" /></Button>
                 </div>
               </>
             ) : (
@@ -469,7 +464,33 @@ export function Storefront() {
   const [search, setSearch] = React.useState("");
   const [selectedGame, setSelectedGame] = React.useState<Game | null>(null);
   const [trackOpen, setTrackOpen] = React.useState(false);
-  const [menuOpen, setMenuOpen] = React.useState(false);
+
+  const modalOpen = Boolean(selectedGame) || trackOpen;
+
+  React.useEffect(() => {
+    if (!modalOpen) return;
+
+    const root = document.documentElement;
+    const body = document.body;
+    const previous = {
+      rootOverflow: root.style.overflow,
+      rootOverscroll: root.style.overscrollBehavior,
+      bodyOverflow: body.style.overflow,
+      bodyOverscroll: body.style.overscrollBehavior,
+    };
+
+    root.style.overflow = "hidden";
+    root.style.overscrollBehavior = "none";
+    body.style.overflow = "hidden";
+    body.style.overscrollBehavior = "none";
+
+    return () => {
+      root.style.overflow = previous.rootOverflow;
+      root.style.overscrollBehavior = previous.rootOverscroll;
+      body.style.overflow = previous.bodyOverflow;
+      body.style.overscrollBehavior = previous.bodyOverscroll;
+    };
+  }, [modalOpen]);
 
   const filteredGames = games.filter((game) => {
     const matchesCategory = activeCategory === "All" || game.category === activeCategory;
@@ -480,7 +501,7 @@ export function Storefront() {
   const scrollToGames = () => document.getElementById("games")?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <main className="overflow-hidden pb-20 md:pb-0">
+    <main className="overflow-hidden pb-24 xl:pb-0">
       <div className="border-b border-[#f5c542]/15 bg-[#15130c] px-4 py-2 text-center text-[10px] font-extrabold uppercase tracking-[.16em] text-[#f5c542] sm:text-[11px]">
         <span className="mr-2 inline-block size-1.5 animate-pulse rounded-full bg-[#d7d8dc]" /> Fast delivery · Secure checkout · Human support
       </div>
@@ -488,28 +509,21 @@ export function Storefront() {
       <header className="sticky top-0 z-40 border-b border-white/[.07] bg-[#070912]/85 backdrop-blur-xl">
         <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}><Logo /></button>
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav className="hidden items-center gap-1 xl:flex">
             {[{ label: "Games", href: "#games" }, { label: "Deals", href: "#deals" }, { label: "How it works", href: "#how" }, { label: "FAQ", href: "#faq" }].map((item) => (
               <a key={item.label} href={item.href} className="rounded-lg px-4 py-2 text-sm font-semibold text-zinc-400 transition hover:bg-white/[.05] hover:text-white">{item.label}</a>
             ))}
           </nav>
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-2 xl:flex">
             <Button variant="ghost" size="sm" onClick={() => setTrackOpen(true)}><ShoppingBag className="size-4" /> Track order</Button>
-            <Button size="sm"><User className="size-4" /> Sign in</Button>
+            <Button variant="secondary" size="sm"><User className="size-4" /> Sign in</Button>
+            <Button size="sm"><User className="size-4" /> Sign up</Button>
           </div>
-          <button className="grid size-10 place-items-center rounded-xl border border-white/10 text-white md:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
-            {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-          </button>
+          <div className="flex items-center gap-1.5 xl:hidden">
+            <Button variant="secondary" size="sm" className="h-9 px-2.5 text-[11px]">Sign in</Button>
+            <Button size="sm" className="h-9 px-2.5 text-[11px]">Sign up</Button>
+          </div>
         </div>
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden border-t border-white/[.07] bg-[#090b15] md:hidden">
-              <nav className="grid gap-1 p-4">
-                {["Games", "Deals", "How it works", "FAQ"].map((item) => <a key={item} href={`#${item === "How it works" ? "how" : item.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="rounded-xl px-4 py-3 text-sm font-bold text-zinc-300 hover:bg-white/[.05]">{item}</a>)}
-              </nav>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </header>
 
       <section className="relative isolate min-h-[690px] border-b border-white/[.06] bg-[#060606] noise lg:min-h-[750px]">
@@ -558,10 +572,10 @@ export function Storefront() {
             { icon: Clock3, title: "Built for speed", copy: "A direct, distraction-free checkout" },
             { icon: ShieldCheck, title: "Payment protected", copy: "No password or OTP is ever requested" },
           ].map(({ icon: Icon, title, copy }, index) => (
-            <div key={title} className={cn("flex items-center gap-4 p-5 sm:p-6", index > 0 && "border-t border-white/[.07] sm:border-l sm:border-t-0")}>
+            <motion.div key={title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.35 }} transition={{ duration: 0.42, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] }} className={cn("flex items-center gap-4 p-5 sm:p-6", index > 0 && "border-t border-white/[.07] sm:border-l sm:border-t-0")}>
               <div className="grid size-11 shrink-0 place-items-center rounded-2xl bg-[#f5c542]/10 text-[#f5c542]"><Icon className="size-5" /></div>
               <div><p className="text-sm font-extrabold text-white">{title}</p><p className="mt-1 text-[11px] text-zinc-500">{copy}</p></div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -581,7 +595,7 @@ export function Storefront() {
         </div>
         <motion.div layout className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-6">
           <AnimatePresence mode="popLayout">
-            {filteredGames.map((game) => <GameCard key={game.id} game={game} onSelect={setSelectedGame} />)}
+            {filteredGames.map((game, index) => <GameCard key={game.id} game={game} index={index} onSelect={setSelectedGame} />)}
           </AnimatePresence>
         </motion.div>
         {filteredGames.length === 0 && <div className="mt-8 rounded-2xl border border-dashed border-white/10 p-10 text-center text-sm text-zinc-500">No game found. Try a different search.</div>}
@@ -594,14 +608,14 @@ export function Storefront() {
             <Button variant="ghost" className="hidden sm:flex">See all offers <ArrowRight className="size-4" /></Button>
           </div>
           <div className="mt-9 grid gap-4 lg:grid-cols-[1.25fr_.75fr]">
-            <motion.button whileHover={{ y: -5 }} onClick={() => setSelectedGame(games[0])} className="group relative min-h-80 overflow-hidden rounded-[28px] border border-[#f5c542]/20 bg-[#17140b] p-7 text-left sm:p-9">
+            <motion.button initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.15 }} transition={{ duration: 0.46, ease: [0.16, 1, 0.3, 1] }} whileHover={{ y: -5, transition: { duration: 0.18, ease: "easeOut" } }} onClick={() => setSelectedGame(games[0])} className="group relative min-h-80 overflow-hidden rounded-[28px] border border-[#f5c542]/20 bg-[#17140b] p-7 text-left sm:p-9">
               <motion.div animate={{ rotate: [0, 7, 0], y: [0, -8, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-16 -top-16 size-80 rounded-full border border-[#f5c542]/15 bg-[#f5c542]/[.05]" />
               <div className="relative max-w-md"><Badge variant="warning"><Sparkles className="size-3" /> Weekend drop</Badge><h3 className="mt-5 text-3xl font-bold tracking-[-.04em] text-white sm:text-4xl">Double the energy.<br />Keep the momentum.</h3><p className="mt-4 text-sm leading-6 text-zinc-400">Explore special passes, first-recharge packs, and limited seasonal bundles at competitive prices.</p><div className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#f5c542]">Unlock deal <ArrowRight className="size-4 transition group-hover:translate-x-1" /></div></div>
               <motion.img animate={{ y: [0, -8, 0], rotate: [-3, 2, -3] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} src={games[0].iconImage} alt="" className="absolute bottom-8 right-8 hidden size-48 rounded-[28px] border border-white/10 object-cover opacity-45 shadow-2xl lg:block" />
             </motion.button>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-              {[{ game: games[1], title: "UC Rush", copy: "Battle-ready packs from ₹69" }, { game: games[4], title: "Crystal Week", copy: "Adventure bundles from ₹89" }].map(({ game, title, copy }) => (
-                <motion.button whileHover={{ x: 5 }} key={title} onClick={() => setSelectedGame(game)} className="group relative min-h-36 overflow-hidden rounded-[24px] border border-white/[.08] bg-[#111111] p-6 text-left transition hover:border-[#f5c542]/25">
+              {[{ game: games[1], title: "UC Rush", copy: "Battle-ready packs from ₹69" }, { game: games[4], title: "Crystal Week", copy: "Adventure bundles from ₹89" }].map(({ game, title, copy }, index) => (
+                <motion.button initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: 0.42, delay: (index + 1) * 0.07, ease: [0.16, 1, 0.3, 1] }} whileHover={{ x: 5, transition: { duration: 0.18, ease: "easeOut" } }} key={title} onClick={() => setSelectedGame(game)} className="group relative min-h-36 overflow-hidden rounded-[24px] border border-white/[.08] bg-[#111111] p-6 text-left transition hover:border-[#f5c542]/25">
                   <div className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: game.accent }} /><img src={game.iconImage} alt="" className="absolute right-4 top-1/2 size-24 -translate-y-1/2 rounded-2xl object-cover opacity-35" /><div className="relative max-w-[65%]"><p className="text-xs font-bold uppercase tracking-[.12em] text-zinc-500">{game.name}</p><p className="mt-2 text-2xl font-bold leading-tight text-white">{title}</p><p className="mt-1 text-sm text-zinc-400">{copy}</p></div>
                 </motion.button>
               ))}
@@ -619,7 +633,7 @@ export function Storefront() {
             { n: "02", icon: BadgeCheck, title: "Verify your player", copy: "Enter public account details and confirm the nickname before any payment starts." },
             { n: "03", icon: Zap, title: "Pay and power up", copy: "Complete a secure hosted checkout and follow delivery from paid to completed." },
           ].map(({ n, icon: Icon, title, copy }, index) => (
-            <motion.div key={title} whileHover={{ y: -5 }} className="relative overflow-hidden rounded-[26px] border border-white/[.08] bg-white/[.025] p-7">
+            <motion.div key={title} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: 0.42, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] }} whileHover={{ y: -5, transition: { duration: 0.18, ease: "easeOut" } }} className="relative overflow-hidden rounded-[26px] border border-white/[.08] bg-white/[.025] p-7">
               <div className="flex items-center justify-between"><div className="grid size-12 place-items-center rounded-2xl border border-[#f5c542]/20 bg-[#f5c542]/10 text-[#f5c542]"><Icon className="size-5" /></div><span className="text-5xl font-bold tracking-[-.08em] text-white/[.055]">{n}</span></div>
               <h3 className="mt-8 text-xl font-bold text-white">{title}</h3><p className="mt-3 text-sm leading-7 text-zinc-500">{copy}</p>
               {index < 2 && <ArrowRight className="absolute -right-3 top-1/2 hidden size-6 text-[#f5c542]/30 lg:block" />}
@@ -634,7 +648,7 @@ export function Storefront() {
           <div className="relative grid items-center gap-10 lg:grid-cols-[1fr_.8fr]">
             <div><Badge variant="success"><ShieldCheck className="size-3" /> Trust layer</Badge><h2 className="mt-5 text-balance text-3xl font-bold tracking-[-.04em] text-white sm:text-4xl">Built to protect every click between pay and play.</h2><p className="mt-4 max-w-xl text-sm leading-7 text-zinc-400">The production build will verify signed payment webhooks, prevent duplicate fulfillment, and keep game credentials out of checkout entirely.</p></div>
             <div className="grid gap-3 sm:grid-cols-2">
-              {[{ icon: ShieldCheck, label: "Signed webhooks" }, { icon: User, label: "No passwords" }, { icon: BadgeCheck, label: "Player pre-check" }, { icon: Headphones, label: "Human escalation" }].map(({ icon: Icon, label }) => <div key={label} className="flex items-center gap-3 rounded-2xl border border-white/[.07] bg-black/20 p-4"><div className="grid size-9 place-items-center rounded-xl bg-[#d7d8dc]/10 text-[#d7d8dc]"><Icon className="size-4" /></div><span className="text-xs font-extrabold text-zinc-200">{label}</span></div>)}
+              {[{ icon: ShieldCheck, label: "Signed webhooks" }, { icon: User, label: "No passwords" }, { icon: BadgeCheck, label: "Player pre-check" }, { icon: Headphones, label: "Human escalation" }].map(({ icon: Icon, label }, index) => <motion.div key={label} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.4, delay: index * 0.055, ease: [0.16, 1, 0.3, 1] }} className="flex items-center gap-3 rounded-2xl border border-white/[.07] bg-black/20 p-4"><div className="grid size-9 place-items-center rounded-xl bg-[#d7d8dc]/10 text-[#d7d8dc]"><Icon className="size-4" /></div><span className="text-xs font-extrabold text-zinc-200">{label}</span></motion.div>)}
             </div>
           </div>
         </div>
@@ -659,10 +673,10 @@ export function Storefront() {
         </div>
       </footer>
 
-      <motion.a whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.94 }} href="#faq" className="fixed bottom-20 right-4 z-30 grid size-12 place-items-center rounded-full border border-[#f5c542]/30 bg-[#f5c542] text-[#090909] shadow-[0_14px_40px_rgba(245,197,66,.18)] md:bottom-6" aria-label="Open support"><MessageCircle className="size-5" /></motion.a>
+      <motion.a whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.94 }} href="#faq" className="fixed bottom-20 right-4 z-30 grid size-12 place-items-center rounded-full border border-[#f5c542]/30 bg-[#f5c542] text-[#090909] shadow-[0_14px_40px_rgba(245,197,66,.18)] xl:bottom-6" aria-label="Open support"><MessageCircle className="size-5" /></motion.a>
 
-      <nav className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-4 rounded-[22px] border border-white/10 bg-[#0b0e18]/95 p-2 shadow-2xl backdrop-blur-xl md:hidden">
-        {[{ icon: Home, label: "Home", action: () => window.scrollTo({ top: 0, behavior: "smooth" }) }, { icon: Gamepad2, label: "Games", action: scrollToGames }, { icon: ShoppingBag, label: "Orders", action: () => setTrackOpen(true) }, { icon: User, label: "Account", action: () => undefined }].map(({ icon: Icon, label, action }, index) => <motion.button whileTap={{ scale: 0.92 }} key={label} onClick={action} className={cn("flex flex-col items-center gap-1 rounded-xl py-2 text-[9px] font-bold", index === 0 ? "bg-[#f5c542]/10 text-[#f5c542]" : "text-zinc-500")}><Icon className="size-[18px]" />{label}</motion.button>)}
+      <nav className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-3 rounded-[22px] border border-white/10 bg-[#0b0e18]/95 p-2 shadow-2xl backdrop-blur-xl xl:hidden">
+        {[{ icon: Home, label: "Home", action: () => window.scrollTo({ top: 0, behavior: "smooth" }) }, { icon: Gamepad2, label: "Games", action: scrollToGames }, { icon: ShoppingBag, label: "Orders", action: () => setTrackOpen(true) }].map(({ icon: Icon, label, action }, index) => <motion.button whileTap={{ scale: 0.92 }} key={label} onClick={action} className={cn("flex flex-col items-center gap-1 rounded-xl py-2 text-[9px] font-bold", index === 0 ? "bg-[#f5c542]/10 text-[#f5c542]" : "text-zinc-500")}><Icon className="size-[18px]" />{label}</motion.button>)}
       </nav>
 
       <TopUpDialog game={selectedGame} onClose={() => setSelectedGame(null)} />

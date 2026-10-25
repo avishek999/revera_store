@@ -127,6 +127,15 @@ button:disabled,
 .animate-accordion-down { animation: accordion-down 0.25s ease-out; }
 .animate-accordion-up { animation: accordion-up 0.25s ease-out; }
 
+.dialog-content {
+  transform-origin: center;
+  will-change: opacity, transform;
+}
+
+.dialog-overlay {
+  will-change: opacity;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     scroll-behavior: auto !important;
