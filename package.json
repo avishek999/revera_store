@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build --webpack",
+    "dev": "node api.js && next dev",
+    "build": "node api.js && next build --webpack",
     "build:sites": "npm run build && node scripts/prepare-sites.mjs",
-    "start": "next start"
+    "start": "node api.js && next start"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "latest",
