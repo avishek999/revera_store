@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowDownRight, ArrowRight, ArrowUpRight, Camera, Gamepad2, MessageCircle, ShieldCheck, Zap } from "lucide-react";
+import { ArrowDownRight, ArrowRight, ArrowUpRight, Camera, ChevronDown, Gamepad2, MessageCircle, ShieldCheck, Zap } from "lucide-react";
 
 const featuredGames = [
   { name: "Mobile Legends", image: "/game_icons/mb_icon.jpeg" },
@@ -20,6 +20,25 @@ const launchGames = [
   { name: "Honor of Kings", image: "/game_icons/hok_icon.png" },
   { name: "Clash of Clans", image: "/game_icons/coc_icon.png" },
   { name: "Zenless Zone Zero", image: "/game_icons/zenless_zero_icon.jpeg" },
+];
+
+const faqs = [
+  {
+    question: "When is Revera Store launching?",
+    answer: "We’re getting things ready now. Follow us on Instagram or message us on WhatsApp to hear when the store opens.",
+  },
+  {
+    question: "Which games will be available?",
+    answer: "The lineup includes Mobile Legends, BGMI, Free Fire MAX, PUBG Mobile, Valorant, Genshin Impact, and more. Browse the full list above.",
+  },
+  {
+    question: "How will a top-up work?",
+    answer: "Choose a game and package, enter your public player details, confirm the player, then complete checkout. Delivery updates will be available with your order.",
+  },
+  {
+    question: "Do I need to share my game password?",
+    answer: "No. A top-up should only need public player details such as a Player ID and, where required, a Zone or Server ID. Never share your password or OTP.",
+  },
 ];
 
 const whatsappHref = "https://wa.me/919439039305?text=Hi%20Revera%20Store!%20Please%20notify%20me%20when%20you%20launch.";
@@ -48,6 +67,7 @@ export function ComingSoon() {
           </a>
           <nav className="hidden items-center gap-2 sm:flex">
             <a href="#games" className="rounded-full px-4 py-2 text-xs font-bold text-zinc-400 transition hover:text-white">Game lineup</a>
+            <a href="#faq" className="rounded-full px-3 py-2 text-xs font-bold text-zinc-400 transition hover:text-white">FAQ</a>
             <a href="/" className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs font-bold text-zinc-300 transition hover:border-white/25 hover:text-white">
               Explore store <ArrowUpRight className="size-3.5" />
             </a>
@@ -176,6 +196,36 @@ export function ComingSoon() {
                 <p className="min-w-0 text-xs font-bold leading-5 text-zinc-200 sm:text-sm">{game.name}</p>
               </motion.div>
             ))}
+          </div>
+        </section>
+
+        <section id="faq" className="border-t border-white/[.08] py-12 sm:py-16">
+          <div className="grid gap-8 lg:grid-cols-[.8fr_1.2fr] lg:gap-14">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#f5c542]">Good to know</p>
+              <h2 className="mt-2 text-3xl font-bold tracking-[-.04em] text-white sm:text-4xl">A few quick answers.</h2>
+              <p className="mt-3 max-w-sm text-sm leading-6 text-zinc-400">The basics about launch, supported games, and how top-ups are designed to work.</p>
+            </div>
+            <div className="space-y-2.5">
+              {faqs.map((faq, index) => (
+                <motion.div
+                  key={faq.question}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.25 }}
+                  transition={{ duration: 0.35, delay: index * 0.045, ease: [0.16, 1, 0.3, 1] }}
+                  className="rounded-2xl border border-white/[.08] bg-white/[.025] px-4 sm:px-5"
+                >
+                  <details className="group">
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-sm font-bold text-white marker:hidden [&::-webkit-details-marker]:hidden">
+                      {faq.question}
+                      <ChevronDown className="size-4 shrink-0 text-zinc-500 transition-transform duration-200 group-open:rotate-180" />
+                    </summary>
+                    <p className="max-w-2xl pb-4 pr-6 text-sm leading-6 text-zinc-400">{faq.answer}</p>
+                  </details>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
